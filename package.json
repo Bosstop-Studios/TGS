@@ -1,0 +1,48 @@
+{
+  "name": "tgs",
+  "version": "1.0.0",
+  "description": "Touch Grass Simulator",
+  "main": "src/js/index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bosstop-Studios/TGS.git"
+  },
+  "keywords": [
+    "TGS",
+    "Grass"
+  ],
+  "author": "Sir Blob",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bosstop-Studios/TGS/issues"
+  },
+  "homepage": "https://github.com/Bosstop-Studios/TGS#readme",
+  "devDependencies": {
+    "electron": "^16.0.7",
+    "electron-builder": "^22.14.5",
+    "fs": "^0.0.1-security"
+  },
+  "build": {
+    "appId": "ml.bosstop.tgs",
+    "forceCodeSigning": false,
+    "productName": "TGS",
+    "win": {
+      "target": "nsis",
+      "asar": "true"
+    },
+    "nsis": {
+      "license": "./eula.txt",
+      "deleteAppDataOnUninstall": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TGS",
+      "oneClick": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true
+    }
+  }
+}

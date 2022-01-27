@@ -1,0 +1,25 @@
+
+html, body {
+    overflow: hidden;
+    margin: 0;
+    height:100%;
+    width:100%;
+    padding:0;
+}
+
+#hand {
+    position: absolute;
+    left: 350px;
+    top: 150px;
+    z-index: 1;
+}
+
+.handanimated {
+    animation: 60ms handmotion ease-in-out;
+}
+
+@keyframes handmotion {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.7); }
+    100% { transform: scale(1); }
+}
