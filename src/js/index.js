@@ -34,8 +34,15 @@ async function createWindow() {
             grass: {
                 level: 1,
                 health: 10,
+            },
+            game: {
+                level: 1,
+                health: 10,
+            },
+            settings: {
+                level: 1,
+                health: 10,
             }
-
         }
         let data = JSON.stringify(json, null, 2);
         fs.writeFile("config.json", data, function(err) { if(err) { return console.log(err) } console.log("The file was saved!") }); 
