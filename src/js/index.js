@@ -31,7 +31,7 @@ async function createWindow() {
     if(!fs.existsSync(`config.json`)) {
         const json = {
             user: {
-                username: "Guest",
+                username: "",
                 coins: 100,
                 xp: 0
             },
