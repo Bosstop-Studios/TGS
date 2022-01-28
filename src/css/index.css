@@ -15,7 +15,7 @@ p {
 #hand {
     position: absolute;
     left: 350px;
-    top: 210px;
+    bottom: 5px;
     z-index: 1;
 }
 
@@ -76,7 +76,7 @@ p {
     top: 15px;
     right: 35px;
     color: #f1f1f1 !important;
-    font-size: 25px;
+    font-size: 45px;
     font-weight: bold;
     transition: 0.3s;
     opacity: 1 !important;

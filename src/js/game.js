@@ -48,13 +48,19 @@ function grassRevive() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0.1 || healthleft == 0.1) {
-        db.user.coins -= db.grass.level + 25;
-        db.grass.health = db.grass.level * 10;
-        uiUpdate();
-        grassUpdate()
-        fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
-            if (x) console.error(x)
-        });
+        const cost = db.grass.level + 25
+        if(db.user.coins > cost || db.user.coins == cost) {
+            db.user.coins -= cost;
+            db.grass.health = db.grass.level * 10;
+            uiUpdate();
+            grassUpdate()
+            gameAlert(1, "<b>Alert:</b>&nbsp; Grass Revived!");
+            fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+                if (x) console.error(x)
+            });
+        } else {
+            gameAlert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to revive your Grass!");
+        }
     } else {
         gameAlert(1, "<b>Alert:</b>&nbsp;There is still grass to touch.");
     }
@@ -80,7 +86,21 @@ async function uiUpdate() {
     document.getElementById("ui-xp").innerHTML = db.user.xp;
 
     document.getElementById("ui-grass-level").innerHTML = db.grass.level;
-    document.getElementById("ui-grass-condition").innerHTML = `${db.grass.health} / ${db.grass.level * 10}`;
+
+    let maxhealth = db.grass.level * 10;
+    let healthleft = db.grass.health / maxhealth;
+    if(healthleft < 0.1 || healthleft == 0.1) {
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.svg')";
+        document.getElementById("ui-grass-condition").style.color = "red";
+        document.getElementById("ui-grass-condition").innerHTML = `Bad`;
+    } else if(healthleft < 0.5 || healthleft == 0.5) { 
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.svg')";
+        document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
+        document.getElementById("ui-grass-condition").innerHTML = `OK`;
+    } else {
+        document.getElementById("ui-grass-condition").style.color = "rgb(13, 226, 42)";
+        document.getElementById("ui-grass-condition").innerHTML = `Good`;
+    }
 }
 
 function gameAlert(type, text) {
@@ -136,11 +156,17 @@ function decreaseCondition() {
     if(healthleft < 0.1 || healthleft == 0.1) {
         db.grass.health -= 1;
         document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.svg')";
+        document.getElementById("ui-grass-condition").style.color = "red";
+        document.getElementById("ui-grass-condition").innerHTML = `Bad`;
     } else if(healthleft < 0.5 || healthleft == 0.5) { 
         db.grass.health -= 1;
         document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.svg')";
+        document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
+        document.getElementById("ui-grass-condition").innerHTML = `OK`;
     } else {
         db.grass.health -= 1;
+        document.getElementById("ui-grass-condition").style.color = "rgb(13, 226, 42)";
+        document.getElementById("ui-grass-condition").innerHTML = `Good`;
     }
 
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {

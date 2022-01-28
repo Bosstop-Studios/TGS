@@ -53,13 +53,13 @@ async function createWindow() {
 }
 
 // IPCMAIN Functions
-ipcMain.on('minimize-window', () => { win.minimize() });
-ipcMain.on('close-window', () => { win.close() });
+ipcMain.on('minimize-window', () => { win.minimize(); });
+ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });
-ipcMain.on('open-settings', () => { win.setSize(1200,728) });
+ipcMain.on('open-settings', () => { win.setSize(1200,728); });
 
 app.whenReady().then(createWindow);
 app.on('before-quit', function() { Tray.destroy(); });
-app.on('window-all-closed', function(){ if(process.platform !== 'darwin'){ app.quit() } });
+app.on('window-all-closed', function(){ if(process.platform !== 'darwin'){ app.quit(); }});
 app.on('activate', () => { if (Glasstron.BrowserWindow.getAllWindows().length === 0) { createWindow(); autoUpdater.checkForUpdatesAndNotify(); } });
