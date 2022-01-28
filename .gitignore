@@ -79,3 +79,4 @@ dist/
 config.json
 eula.txt
 run.bat
+build.bat

@@ -131,6 +131,26 @@ function gameAlert(type, text) {
         } else {
             return;
         }
+    } else if(type == 3) {
+        if(document.getElementById("model-alert-success").style.display = "none") {
+            document.getElementById("model-alert-success").style.display = "flex";
+            document.getElementById("model-alert-success").innerHTML = text.toString();
+            setTimeout(function() {
+                document.getElementById("model-alert-success").style.display = "none";
+            }, 5000)
+        } else {
+            return;
+        }
+    } else if(type == 4) {
+        if(document.getElementById("model-alert-danger").style.display = "none") {
+            document.getElementById("model-alert-danger").style.display = "flex";
+            document.getElementById("model-alert-danger").innerHTML = text.toString();
+            setTimeout(function() {
+                document.getElementById("model-alert-danger").style.display = "none";
+            }, 5000)
+        } else {
+            return;
+        }
     } else {
         return;
     }

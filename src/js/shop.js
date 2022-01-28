@@ -65,15 +65,13 @@ function buyCoins() {
   if(db.user.xp > 100 || db.user.xp == 100) {
     db.user.xp -= 100;
     db.user.coins += 100;
-    closeShop();
-    gameAlert(1, "100 Coins added.");
+    gameAlert(3, "100 Coins added.");
     uiUpdate();
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
       if (x) console.error(x)
     });
   } else {
-    closeShop()
-    gameAlert(2, "You don't have enough Social Credit to buy this item.")
+    gameAlert(4, "You don't have enough Social Credit to buy this item.")
   }
 }
 
@@ -85,16 +83,14 @@ function grassLevelup() {
     db.user.coins -= levelupCost;
     db.grass.level += 1;
     db.grass.health = db.grass.level * 10;
-    closeShop();
-    gameAlert(1, "Grass Leveled Up");
+    gameAlert(3, "Grass Leveled Up");
     grassUpdate();
     uiUpdate();
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
       if (x) console.error(x)
     });
   } else {
-    closeShop()
-    gameAlert(2, "You don't have enough Coins to buy this item.")
+    gameAlert(4, "You don't have enough Coins to buy this item.")
   }
 }
 
