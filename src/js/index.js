@@ -23,6 +23,7 @@ async function createWindow() {
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
+    // win.webContents.openDevTools()
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 
@@ -39,12 +40,10 @@ async function createWindow() {
                 health: 10,
             },
             game: {
-                level: 1,
-                health: 10,
+                firstTouch: 0
             },
             settings: {
-                hand: 1,
-                health: 10,
+                hand: 1
             }
         }
         let data = JSON.stringify(json, null, 2);

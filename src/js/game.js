@@ -21,8 +21,12 @@ onLoad();
 var hand = document.getElementById("hand")
 
 hand.addEventListener("click", async function(){
-    const data = await getData();
-    if(data.grass.health > 0 ) {
+
+    if(db.game.firstTouch == 0) {
+        achievement("Achievement Unlocked: TOUCHED GRASS", "hand-badge.png")
+        FirstTouch();
+    }
+    if(db.grass.health > 0 ) {
         hand.classList.add('handanimated');
         earnCoins();
         earnXP();
@@ -48,9 +52,11 @@ function grassRevive() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0.1 || healthleft == 0.1) {
-        const cost = db.grass.level + 25
-        if(db.user.coins > cost || db.user.coins == cost) {
-            db.user.coins -= cost;
+        const rate = db.grass.level * 15
+        const cost = db.grass.level * 25 
+        const finalCost = cost - rate;
+        if(db.user.coins > finalCost || db.user.coins == finalCost) {
+            db.user.coins -= finalCost;
             db.grass.health = db.grass.level * 10;
             uiUpdate();
             grassUpdate()
@@ -89,12 +95,13 @@ async function uiUpdate() {
 
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
-    if(healthleft < 0.1 || healthleft == 0.1) {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.png')";
+    if(healthleft == 0) {
+        document.getElementById("ui-grass-condition").style.color = "red";
+        document.getElementById("ui-grass-condition").innerHTML = `Dead`;
+    } else if(healthleft < 0.1 || healthleft == 0.1) {
         document.getElementById("ui-grass-condition").style.color = "red";
         document.getElementById("ui-grass-condition").innerHTML = `Bad`;
     } else if(healthleft < 0.5 || healthleft == 0.5) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.png')";
         document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
         document.getElementById("ui-grass-condition").innerHTML = `OK`;
     } else {
@@ -131,10 +138,6 @@ function gameAlert(type, text) {
 
 
 // STORAGE
-
-function getData() {
-    return db;
-}
 function earnCoins() {
     db.user.coins += 1 + db.grass.level;
 
@@ -153,7 +156,10 @@ function decreaseCondition() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
 
-    if(healthleft < 0.1 || healthleft == 0.1) {
+    if(healthleft == 0) {
+        document.getElementById("ui-grass-condition").style.color = "red";
+        document.getElementById("ui-grass-condition").innerHTML = `Dead`;
+    } else if(healthleft < 0.1 || healthleft == 0.1) {
         db.grass.health -= 1;
         document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.png')";
         document.getElementById("ui-grass-condition").style.color = "red";
