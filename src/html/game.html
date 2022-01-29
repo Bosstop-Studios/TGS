@@ -29,12 +29,14 @@
         <div id="drag"></div>
         <div id="settings">&#9881;</div>
         <div id="mini">&#x1F5D5;</div>
+        <div id="maxi">&#128470;</div>
         <div id="close">&times;</div>
     </div>
     <br>
     <div style="top:30px; width:100%; height:100%; position:absolute; background-repeat:no-repeat; background-size:cover;" id="grass">
-        <button style="left:10px; top:25px; position:absolute" id="shop-btn" type="button" onclick="openShop()" class="btn btn-primary">Shop&nbsp&nbsp</button>
-        <button style="left:10px; top:70px; position:absolute" id="revive-btn" type="button" class="btn btn-success">Revive</button>
+        <button style="left:10px; top:25px; position:absolute; font-size:20px;" id="shop-btn" type="button" onclick="openShop()" class="btn btn-primary">Shop&nbsp&nbsp</button>
+        <button style="left:10px; top:75px; position:absolute; font-size:20px;" id="revive-btn" type="button" onclick="grassRevive()" class="btn btn-success">Revive</button>
+        <button style="left:10px; top:125px; position:absolute; font-size:20px;" id="life-btn" type="button" onclick="openLife()" class="btn btn-info">Life&nbsp&nbsp&nbsp&nbsp&nbsp</button>
         <div style="left:100px; top:25px; width:auto; display:none; z-index: 4; position:absolute; max-width:75%;" class="alert alert-danger" id="alert-danger" role="alert"></div>
         <div style="left:100px; top:25px; width:auto; display:none; z-index: 4; position:absolute; max-width:75%;" class="alert alert-success" id="alert-success" role="alert"></div>
         <div style="width:175px; height:200px; top:20px; position:absolute; right:25px; background-color: rgba(85, 91, 112, 0.85); padding:15px; z-index:3;">
@@ -45,7 +47,9 @@
             <p style="color: rgb(255, 255, 255); font-size:15px;">Level: <span id="ui-grass-level">#</span></p>
             <p style="color: rgb(255, 255, 255); font-size:15px;">Condition: <span id="ui-grass-condition">#</span></p>
         </div>
-        <center><img src="../assets/hand.svg" id="hand"></center>
+        <center>
+            <img src="../assets/hand.svg" id="hand">
+        </center>
         <div id="myModal" class="modal">
             <span class="close">&times;</span>
             <div style="left:100px; top:25px; width:auto; display:none; z-index: 4; position:absolute; max-width:75%;" class="alert alert-danger" id="model-alert-danger" role="alert"></div>
@@ -58,5 +62,6 @@
     <script src="../js/game.js"></script>
     <script src="../js/achievement.js"></script>
     <script src="../js/shop.js"></script>
+    <script src="../js/sc.js"></script>
 </body>
 </html>

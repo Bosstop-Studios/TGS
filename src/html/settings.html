@@ -6,26 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--PAGE-->
-    <title>TGS - Start</title>
+    <title>TGS - Settings</title>
 
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">    
 </head>
-<body>
+<body style="font-family:'Roboto',sans-serif;">
     <div id="grid">
         <div id="name">TGS</div>
         <div id="version">beta-1.0</div>
         <div id="drag"></div>
         <div id="settings">&#9881;</div>
         <div id="mini">&#x1F5D5;</div>
+        <div id="maxi">&#128470;</div>
         <div id="close">&times;</div>
     </div>
     <br>
-    <center>
-        <img src="">
-    </center>
+    <div style="top:30px; width:100%; height:100%; position:absolute; color:rgb(255, 255, 255); background-color:rgb(61, 61, 61); padding:20px;">
+        <img style="left:10px; top:25px; position:absolute; height:50px;" id="back-arrow" src="../assets/back-arrow.png">
+        <div style="left:100px; top:25px; width:auto; display:none; z-index: 4; position:absolute; max-width:75%;" class="alert alert-danger" id="alert-danger" role="alert"></div>
+        <div style="left:100px; top:25px; width:auto; display:none; z-index: 4; position:absolute; max-width:75%;" class="alert alert-success" id="alert-success" role="alert"></div>
+        <div class="container">
+            <h1 style="text-align:center;">Settings</h1>
+            <br>
+            <!--<div class="form-group">
+                <label for="sel1">Graphics</label>
+                <select class="form-control" id="sel1" name="sellist1">
+                  <option>Normal</option>
+                  <option>Low</option>
+                </select>
+            </div>-->
+            <button id="resize" type="button" onclick="" class="btn btn-primary">Resize</button>
+            <div style="margin-top:20px; margin-bottom:20px;" id="credits">
+                <h4>Credits:</h4>
+                <p>
+                    Manager: Zach
+                    <br>
+                    Developer: Sir Blob
+                    <br>
+                    Beta Tester: Skymonkey
+                </p>
+            </div>
+            <button id="reset" type="button" onclick="resetData()" class="btn btn-danger">Reset Data</button>
+        </div>
+    </div>
     <script src="../js/controls.js"></script>
+    <script src="../js/settings.js"></script>
 </body>
 </html>

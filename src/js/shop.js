@@ -37,6 +37,20 @@ function openShop() {
           <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grassLevelup()" class="btn btn-success">Buy</button>
         </div>
     </div>  
+    <br>
+    <h2 style="text-align:center;">Service Center</h2>
+    <br>
+    <div style="margin-top:10px; margin-bottom:10px" class="row">
+        <div class="col-sm-4">
+          <p style="font-size:20px;">Tacos Grass Care</p>
+        </div>
+        <div class="col-sm-5">
+          <p style="display:inline;">Cost: <span>150 per Level of Grass</span></p>
+        </div>
+        <div class="col-sm-1">
+          <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="" class="btn btn-success">Get</button>
+        </div>
+    </div> 
   `
 
   prices();
@@ -56,7 +70,7 @@ function closeShop() {
 // SHOP FUNCTIONS 
 
 function prices() {
-  document.getElementById("grass-levelup").innerHTML = db.grass.level * 150 + " Coins";
+  document.getElementById("grass-levelup").innerHTML = grasslvlupCost().toString() + " Coins";
 }
 
 // SOCIAL CREDIT SHOP
@@ -71,26 +85,42 @@ function buyCoins() {
       if (x) console.error(x)
     });
   } else {
-    gameAlert(4, "You don't have enough Social Credit to buy this item.")
+    gameAlert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
   }
 }
 
 // COINS SHOP 
 
+function grasslvlupCost() {
+  let levelupCost;
+  if(db.grass.level > 20) {
+    levelupCost = db.grass.level * 650
+  }
+  if(db.grass.level > 10) {
+    levelupCost = db.grass.level * 450
+  }
+  if(db.grass.level < 10) {
+    levelupCost = db.grass.level * 150
+  }
+  return levelupCost;
+}
+
 function grassLevelup() {
-  const levelupCost = db.grass.level * 150
+  let levelupCost = grasslvlupCost();
+
   if(db.user.coins > levelupCost || db.user.coins == levelupCost) {
     db.user.coins -= levelupCost;
     db.grass.level += 1;
     db.grass.health = db.grass.level * 10;
-    gameAlert(3, "Grass Leveled Up");
+    closeShop()
+    gameAlert(1, "Grass Leveled Up");
     grassUpdate();
     uiUpdate();
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
       if (x) console.error(x)
     });
   } else {
-    gameAlert(4, "You don't have enough Coins to buy this item.")
+    gameAlert(4, "<b>Alert:</b>&nbsp;You don't have enough Coins to buy this item.")
   }
 }
 

@@ -12,11 +12,13 @@ async function createWindow() {
         minWidth: 1200,
         minHeight: 728,
         frame: false,
+        maximizable: true,
         minimizable: true,
         resizable: false,
         title: 'TGS',
         icon: __dirname + '/icon.png',
         webPreferences: {
+          //devTools: false,
           nodeIntegration: true,
           contextIsolation: false
         }
@@ -26,7 +28,6 @@ async function createWindow() {
     // win.webContents.openDevTools()
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
-
 
     if(!fs.existsSync(`config.json`)) {
         const json = {
@@ -43,7 +44,7 @@ async function createWindow() {
                 firstTouch: 0
             },
             settings: {
-                hand: 1
+                graphics: 1
             }
         }
         let data = JSON.stringify(json, null, 2);
@@ -56,7 +57,8 @@ ipcMain.on('minimize-window', () => { win.minimize(); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });
-ipcMain.on('open-settings', () => { win.setSize(1200,728); });
+ipcMain.on('open-settings', () => { win.loadFile('src/html/settings.html'); });
+ipcMain.on('open-resize', () => { win.setSize(1200,728); });
 
 app.whenReady().then(createWindow);
 app.on('before-quit', function() { Tray.destroy(); });

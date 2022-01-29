@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 
 let db = JSON.parse(fs.readFileSync("./config.json", "utf8"));
@@ -39,20 +38,13 @@ hand.addEventListener("click", async function(){
     }
 });
 
-var reviveBtn = document.getElementById("revive-btn")
-
-reviveBtn.addEventListener("click", async function(){
-    grassRevive();
-});
-
-
 // GRASS FUNCTIONS
 
 function grassRevive() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0.1 || healthleft == 0.1) {
-        const rate = db.grass.level * 15
+        const rate = db.grass.level * 5
         const cost = db.grass.level * 25 
         const finalCost = cost - rate;
         if(db.user.coins > finalCost || db.user.coins == finalCost) {
@@ -159,12 +151,13 @@ function gameAlert(type, text) {
 
 // STORAGE
 function earnCoins() {
-    db.user.coins += 1 + db.grass.level;
+    db.user.coins += db.grass.level;
 
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
     });
 }
+
 function earnXP() {
     db.user.xp += 2;
 
@@ -172,6 +165,7 @@ function earnXP() {
         if (x) console.error(x)
     });
 }
+
 function decreaseCondition() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
