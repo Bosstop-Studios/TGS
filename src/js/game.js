@@ -69,11 +69,11 @@ function grassUpdate() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0.1 || healthleft == 0.1) {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.png')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.jpeg')";
     } else if(healthleft < 0.5 || healthleft == 0.5) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.png')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.jpeg')";
     } else {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass1.png')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass1.jpeg')";
     }
 }
 
@@ -176,12 +176,12 @@ function decreaseCondition() {
         document.getElementById("ui-grass-condition").innerHTML = `Dead`;
     } else if(healthleft < 0.1 || healthleft == 0.1) {
         db.grass.health -= 1;
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.png')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.jpeg')";
         document.getElementById("ui-grass-condition").style.color = "red";
         document.getElementById("ui-grass-condition").innerHTML = `Bad`;
     } else if(healthleft < 0.5 || healthleft == 0.5) { 
         db.grass.health -= 1;
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.png')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.jpeg')";
         document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
         document.getElementById("ui-grass-condition").innerHTML = `OK`;
     } else {

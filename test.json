@@ -1,0 +1,17 @@
+{
+  "user": {
+    "username": "Gaganmoondancerissus",
+    "coins": 13188,
+    "xp": 1180
+  },
+  "grass": {
+    "level": 29,
+    "health": 115
+  },
+  "game": {
+    "firstTouch": 1
+  },
+  "settings": {
+    "graphics": 1
+  }
+}

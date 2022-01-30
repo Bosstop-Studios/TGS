@@ -12,6 +12,11 @@ p {
     padding: 0 !important;
 }
 
+img {
+    -webkit-transition: background-image 0.2s ease-in-out;
+    transition: background-image 0.2s ease-in-out;
+}
+
 #hand {
     position: absolute;
     left: 350px;
