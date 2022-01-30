@@ -9,7 +9,7 @@ function onLoad() {
         <p style="font-size:25px">Enter Your Username:</p>
         <br>
         <div class="form-group">
-            <input style="max-width:500px" type="text" class="form-control" id="usr" maxlength="20" required>
+            <input style="max-width:500px" type="text" class="form-control" id="usr" maxlength="10" required>
         </div>
         <br><br><br>
         <button type="button" class="btn btn-primary" style="text-align:center; font-size:30px;" id="start-btn">Start</button>

@@ -93,10 +93,34 @@ function buyCoins() {
 
 function grasslvlupCost() {
   let levelupCost;
-  if(db.grass.level > 20) {
+  if(db.grass.level > 100 || db.grass.level == 100) {
+    levelupCost = db.grass.level * 3500
+  }
+  if(db.grass.level > 90 || db.grass.level == 90) {
+    levelupCost = db.grass.level * 2750
+  }
+  if(db.grass.level > 80 || db.grass.level == 80) {
+    levelupCost = db.grass.level * 2050
+  }
+  if(db.grass.level > 70 || db.grass.level == 70) {
+    levelupCost = db.grass.level * 1750
+  }
+  if(db.grass.level > 60 || db.grass.level == 60) {
+    levelupCost = db.grass.level * 1550
+  }
+  if(db.grass.level > 50 || db.grass.level == 50) {
+    levelupCost = db.grass.level * 1250
+  }
+  if(db.grass.level > 40 || db.grass.level == 40) {
+    levelupCost = db.grass.level * 1050
+  }
+  if(db.grass.level > 30 || db.grass.level == 30) {
+    levelupCost = db.grass.level * 850
+  }
+  if(db.grass.level > 20 || db.grass.level == 20) {
     levelupCost = db.grass.level * 650
   }
-  if(db.grass.level > 10) {
+  if(db.grass.level > 10 || db.grass.level == 10) {
     levelupCost = db.grass.level * 450
   }
   if(db.grass.level < 10) {

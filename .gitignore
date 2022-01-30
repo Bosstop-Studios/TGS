@@ -76,6 +76,7 @@ typings/
 .fusebox/
 
 dist/
+unused/
 config.json
 eula.txt
 run.bat
