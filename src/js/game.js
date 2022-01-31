@@ -61,7 +61,7 @@ function grassRevive() {
             gameAlert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to revive your Grass!");
         }
     } else {
-        gameAlert(1, "<b>Alert:</b>&nbsp;There is still grass to touch.");
+        gameAlert(2, "<b>Alert:</b>&nbsp;There is still grass to touch.");
     }
 }
 
@@ -180,7 +180,7 @@ function achievement(name, iconPath) {
 const shortcuts = db.settings.shortcuts;
 
 document.onkeydown = (keyDownEvent) => {
-    keyDownEvent.preventDefault();
+    // keyDownEvent.preventDefault();
 };
 
 shortcut.add(`${shortcuts.revivebtn[0]}+${shortcuts.revivebtn[1]}`, function() {
@@ -194,6 +194,49 @@ function FirstTouch() {
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
       if (x) console.error(x)
     });
+}
+
+// GAME MENU
+
+function openMenu() {
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("modal-content");
+    
+    modal.style.display = "flex";
+    modalContent.style.display = "block"
+    modalContent.style.backgroundColor = "transparent";
+    modalContent.innerHTML = `
+    <center style="margin-top:35%; font-size:45px;">
+        <div style="margin-top:10px; margin-bottom:10px" class="row">
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openShop()" class="btn btn-success">Shop</button>
+          </div>
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="" class="btn btn-success" disabled>LIFE</button>
+          </div>
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="" class="btn btn-success" disabled>UNA</button>
+          </div>
+        </div> 
+        <div style="margin-top:10px; margin-bottom:10px" class="row">
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="" class="btn btn-success" disabled>UNA</button>
+          </div>
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="" class="btn btn-success" disabled>UNA</button>
+          </div>
+          <div class="col-sm-3">
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="" class="btn btn-success" disabled>UNA</button>
+          </div>
+        </div> 
+    </center>
+    `
+  
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+  
 }
 
 // GAME SHOP
@@ -258,6 +301,7 @@ function openShop() {
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() { 
       modal.style.display = "none";
+      modalContent.style.backgroundColor = "none";
     }
   
 }

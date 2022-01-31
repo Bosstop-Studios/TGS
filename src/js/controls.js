@@ -23,6 +23,6 @@ if(settingsButton) {
 }
 
 function Version() {
-    document.getElementById("version").innerText = require("../../package.json").version;  
+    document.getElementById("version").innerText = require("../../package.json").buildVersion;  
 }
 Version();

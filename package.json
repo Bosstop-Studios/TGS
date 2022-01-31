@@ -1,6 +1,7 @@
 {
   "name": "tgs",
-  "version": "beta-1.3",
+  "version": "1.0.0",
+  "buildVersion": "beta-1.3",
   "description": "Touch Grass Simulator",
   "main": "src/js/index.js",
   "scripts": {
