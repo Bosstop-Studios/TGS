@@ -41,10 +41,15 @@ async function createWindow() {
                 health: 10,
             },
             game: {
-                firstTouch: 0
+                achievement: {
+                    firstTouch: 0
+                }
             },
             settings: {
-                graphics: 1
+                graphics: 1,
+                shortcuts: {
+                    revivebtn: ['ctrl', 'r'],
+                }
             }
         }
         let data = JSON.stringify(json, null, 2);
@@ -56,6 +61,7 @@ async function createWindow() {
 ipcMain.on('app-restart', () => { app.relaunch(); app.exit(); });
 ipcMain.on('maximize-window', () => { win.setFullScreen(!win.isFullScreen()) });
 ipcMain.on('minimize-window', () => { win.minimize(); });
+ipcMain.on('resize-window', (sizes) => { win.setSize(sizes.width, sizes.height); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });

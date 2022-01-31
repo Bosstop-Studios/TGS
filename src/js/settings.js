@@ -5,9 +5,14 @@ backButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-game');
 }); 
 
-var sizeButton = document.getElementById("resize")
+const sizes = {
+    width: document.getElementById("resize-width").value,
+    height: document.getElementById("resize-height").value
+}
+
+var sizeButton = document.getElementById("resize-btn")
 sizeButton.addEventListener("click", function (e) {
-    ipcRenderer.send('open-resize');
+    ipcRenderer.send('open-resize', sizes);
 }); 
 
 function graphicsLevel() {

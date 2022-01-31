@@ -45,23 +45,39 @@
                   <option>Normal</option>
                   <option>Low</option>
                 </select>
-            </div>-->
-            <button id="resize" type="button" onclick="" class="btn btn-primary">Resize</button>
+            </div>--> 
+            <center>
+                <h4>Graphics</h4>
+                <label for="resize-width">Width:</label>
+                <input id="resize-width" style="display:inline; width:150px; margin-right:10px;" type="text" class="form-control form-control">
+                <label for="resize-height">Height:</label>
+                <input id="resize-height" style="display:inline; width:150px;" type="text" class="form-control form-control"><br><br>
+                <button id="resize-btn" type="button" class="btn btn-primary">Resize</button>
+                <br><br>
+                <h4>Shortcuts</h4>
+                <div id="shortcut-revive-box" style="margin-top:10px; margin-bottom:10px;">
+                    <p style="display:inline;">Revive Grass</p>
+                    <input id="shortcut-revive-input1" style="display:inline; width:100px; margin-right:10px; margin-left:10px;" type="text" class="form-control form-control" disabled>
+                    <p style="display:inline;">+</p>
+                    <input id="shortcut-revive-input2" style="display:inline; width:100px; margin-right:10px; margin-left:10px;" type="text" class="form-control form-control" disabled>
+                    <button id="shortcut-revive-btn"style="display:inline;" type="button" class="btn btn-primary" disabled>Set</button>
+                </div>
+                <div style="margin-top:20px; margin-bottom:20px;" id="credits">
+                    <h4>Credits:</h4>
+                    <p>
+                        Manager: Zach
+                        <br>
+                        Developer: Sir Blob
+                        <br>
+                        Beta Tester: Skymonkey
+                        <br>
+                        Beta Tester: DragonBoy101
+                    </p>
+                </div>
+                <button id="reset" type="button" onclick="resetData()" class="btn btn-danger">Reset Data</button>
+            </center>               
             <br><br>
             <!--<button id="update" type="button" onclick="" class="btn btn-success">Update</button>-->
-            <div style="margin-top:20px; margin-bottom:20px;" id="credits">
-                <h4>Credits:</h4>
-                <p>
-                    Manager: Zach
-                    <br>
-                    Developer: Sir Blob
-                    <br>
-                    Beta Tester: Skymonkey
-                    <br>
-                    Beta Tester: DragonBoy101
-                </p>
-            </div>
-            <button id="reset" type="button" onclick="resetData()" class="btn btn-danger">Reset Data</button>
         </div>
     </div>
     <script src="../js/controls.js"></script>
