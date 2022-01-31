@@ -54,13 +54,13 @@ async function createWindow() {
 
 // IPCMAIN Functions
 ipcMain.on('app-restart', () => { app.relaunch(); app.exit(); });
+ipcMain.on('maximize-window', () => { win.setFullScreen(!win.isFullScreen()) });
 ipcMain.on('minimize-window', () => { win.minimize(); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });
 ipcMain.on('open-settings', () => { win.loadFile('src/html/settings.html'); });
 ipcMain.on('open-update', () => { win.loadFile('src/html/update.html'); });
-ipcMain.on('open-resize', () => { win.setSize(1200,728); });
 
 app.whenReady().then(createWindow);
 app.on('before-quit', function() { Tray.destroy(); });

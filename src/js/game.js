@@ -149,6 +149,14 @@ function gameAlert(type, text) {
     }
 }
 
+// GAME SHORTCUTS 
+document.onkeydown = (keyDownEvent) => {
+    keyDownEvent.preventDefault();
+};
+
+shortcut.add("ctrl+r", function() {
+    grassRevive()
+});
 
 // STORAGE
 function earnCoins() {

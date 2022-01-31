@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bosstop-Studios/TGS.git"
+    "url": "git+https://github.com/Bosstop-Studios/TGS-code.git"
   },
   "keywords": [
     "TGS",
@@ -31,6 +31,10 @@
     "appId": "ml.bosstop.tgs",
     "forceCodeSigning": false,
     "productName": "TGS",
+    "files": [
+      "**/*",
+      "!unused/"
+    ],
     "win": {
       "target": "nsis",
       "asar": "true"

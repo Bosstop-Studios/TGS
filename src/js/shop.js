@@ -136,8 +136,8 @@ function grassLevelup() {
     db.user.coins -= levelupCost;
     db.grass.level += 1;
     db.grass.health = db.grass.level * 10;
-    closeShop()
-    gameAlert(1, "Grass Leveled Up");
+    gameAlert(3, "<b>Alert:</b>&nbsp;Grass Leveled Up");
+    prices();
     grassUpdate();
     uiUpdate();
     fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {

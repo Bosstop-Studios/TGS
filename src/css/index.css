@@ -5,6 +5,11 @@ html, body {
     height:100%;
     width:100%;
     padding:0;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 p {
