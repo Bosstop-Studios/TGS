@@ -248,7 +248,7 @@ function openShop() {
             <p style="display:inline;">Cost: <span>150 per Level of Grass</span></p>
           </div>
           <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="" class="btn btn-success">Get</button>
+            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="" class="btn btn-success" disabled>Get</button>
           </div>
       </div> 
     `

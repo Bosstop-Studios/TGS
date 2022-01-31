@@ -25,7 +25,7 @@ async function createWindow() {
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools();
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 
@@ -59,6 +59,7 @@ async function createWindow() {
 
 // IPCMAIN Functions
 ipcMain.on('app-restart', () => { app.relaunch(); app.exit(); });
+ipcMain.on('app-dev', () => { win.webContents.openDevTools(); });
 ipcMain.on('maximize-window', () => { win.setFullScreen(!win.isFullScreen()) });
 ipcMain.on('minimize-window', () => { win.minimize(); });
 ipcMain.on('resize-window', (sizes) => { win.setSize(sizes.width, sizes.height); });

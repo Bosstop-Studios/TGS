@@ -1,4 +1,4 @@
-const { ipcRenderer, shell, remote } = require('electron');
+const { ipcRenderer, shell, remote } = require('electron'); 
 
 var closeButton = document.getElementById("close")
 closeButton.addEventListener("click", function (e) {
@@ -21,3 +21,8 @@ if(settingsButton) {
         ipcRenderer.send('open-settings');
     }); 
 }
+
+function Version() {
+    document.getElementById("version").innerText = require("../../package.json").version;  
+}
+Version();
