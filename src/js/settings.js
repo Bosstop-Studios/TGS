@@ -15,9 +15,12 @@ sizeButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-resize', sizes);
 }); 
 
-function graphicsLevel() {
-    var list = document.getElementById("sel1").value;
-}
+/*
+var updateButton = document.getElementById("update")
+updateButton.addEventListener("click", function (e) {
+    ipcRenderer.send('open-update');
+});
+*/
 
 function resetData() {
     const json = {
@@ -31,13 +34,25 @@ function resetData() {
             health: 10,
         },
         game: {
-            firstTouch: 0
+            achievement: {
+                firstTouch: 0
+            }
         },
         settings: {
-            graphics: 1
+            graphics: 1,
+            shortcuts: {
+                revivebtn: ['ctrl', 'r'],
+            }
         }
     }
+
     let data = JSON.stringify(json, null, 2);
-    fs.writeFile("./config.json", data, function(err) { if(err) { return console.log(err) } console.log("The file was reset!") }); 
-    ipcRenderer.send('open-start');
+    fs.writeFile("./config.json", data, function(err) { 
+        if(err) { 
+            return console.log(err) 
+        } else {
+            ipcRenderer.send('open-start');
+            console.log("The file was reset!") 
+        }
+    }); 
 }

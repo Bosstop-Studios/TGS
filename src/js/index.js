@@ -19,13 +19,14 @@ async function createWindow() {
         icon: __dirname + '/icon.png',
         webPreferences: {
           //devTools: false,
+          webgl: true,
           nodeIntegration: true,
           contextIsolation: false
         }
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 

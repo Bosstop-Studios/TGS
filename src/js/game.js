@@ -22,7 +22,7 @@ var hand = document.getElementById("hand")
 
 hand.addEventListener("click", async function(){
 
-    if(db.game.firstTouch == 0) {
+    if(db.game.achievement.firstTouch == 0) {
         achievement("Achievement Unlocked: TOUCHED GRASS", "hand-badge.png")
         FirstTouch();
     }
