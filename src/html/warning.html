@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
 
+    <!--PRELOADS-->
+    <link rel="preload" as="image" type="image/jpeg" href="../assets/scenes/Warning.jpeg">
+
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
@@ -22,7 +25,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
 </head>
-<body id="body" style="font-family:'Roboto',sans-serif; background-image: url(../assets/Warning.png); background-repeat:no-repeat; background-size: 100%;">
+<body id="body" style="font-family:'Roboto',sans-serif; background-image: url(../assets/scenes/Warning.jpeg); background-repeat:no-repeat; background-size: 100%; background-color:#000000;">
     <div id="grid">
         <div id="name">TGS</div>
         <div id="version"></div>
@@ -34,7 +37,11 @@
     </div>
     <br>
     <div style="width:100%; height:100%; position:absolute;" id="click"></div>
-    <script src="../js/onclick.js"></script>
     <script src="../js/controls.js"></script>
+    <script>
+        document.getElementById("click").addEventListener("click", function(){
+            ipcRenderer.send('open-start');
+        });
+    </script>
 </body>
 </html>

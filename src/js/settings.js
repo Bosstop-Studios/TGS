@@ -12,7 +12,7 @@ const sizes = {
 
 var sizeButton = document.getElementById("resize-btn")
 sizeButton.addEventListener("click", function (e) {
-    ipcRenderer.send('open-resize', sizes);
+    ipcRenderer.send('resize-window', sizes);
 }); 
 
 /*
@@ -34,8 +34,13 @@ function resetData() {
             health: 10,
         },
         game: {
+            playTime: 0,
             achievement: {
-                firstTouch: 0
+                firstTouch: 0,
+                lvl10: 0,
+                lvl20: 0,
+                lvl30: 0,
+                lvl40: 0,
             }
         },
         settings: {
@@ -47,7 +52,7 @@ function resetData() {
     }
 
     let data = JSON.stringify(json, null, 2);
-    fs.writeFile("./config.json", data, function(err) { 
+    fs.writeFile("./storage.json", data, function(err) { 
         if(err) { 
             return console.log(err) 
         } else {

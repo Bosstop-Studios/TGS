@@ -1,7 +1,7 @@
 const fs = require('fs');
 // const ms = require('ms');
 
-let db = JSON.parse(fs.readFileSync("./config.json", "utf8"));
+let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -21,11 +21,7 @@ onLoad();
 var hand = document.getElementById("hand")
 
 hand.addEventListener("click", async function(){
-
-    if(db.game.achievement.firstTouch == 0) {
-        achievement("Achievement Unlocked: TOUCHED GRASS", "hand-badge.png")
-        FirstTouch();
-    }
+    achievementListener()
     if(db.grass.health > 0 ) {
         hand.classList.add('handanimated');
         earnCoins();
@@ -33,7 +29,6 @@ hand.addEventListener("click", async function(){
         decreaseCondition()
         await delay(500); 
         hand.classList.remove('handanimated');
-        uiUpdate();
     } else {
         gameAlert(2, "<b>Alert:</b>&nbsp;Your Grass is in bad condition. Please grow more inorder to continue to touch it.");
     }
@@ -54,7 +49,7 @@ function grassRevive() {
             uiUpdate();
             grassUpdate()
             gameAlert(1, "<b>Alert:</b>&nbsp; Grass Revived!");
-            fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
                 if (x) console.error(x)
             });
         } else {
@@ -68,17 +63,26 @@ function grassRevive() {
 function grassUpdate() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
-    if(healthleft < 0.1 || healthleft == 0.1) {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.jpeg')";
-    } else if(healthleft < 0.5 || healthleft == 0.5) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.jpeg')";
+    if(healthleft < 0 || healthleft == 0) {
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/dirt.jpeg')";
+    } else if(healthleft < 0.2 || healthleft == 0.2) { 
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass5.jpeg')";
+    } else if(healthleft < 0.4 || healthleft == 0.4) { 
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass4.jpeg')";
+    } else if(healthleft < 0.6 || healthleft == 0.6) { 
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass3.jpeg')";
+    } else if(healthleft < 0.8 || healthleft == 0.8) { 
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass2.jpeg')";
     } else {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass1.jpeg')";
+        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass1.jpeg')";
     }
 }
 
 
 // GAME UTIL
+
+// PlayTime
+setInterval(addTime, 60000);
 
 async function uiUpdate() {
     document.getElementById("ui-coins").innerHTML = db.user.coins;
@@ -91,10 +95,10 @@ async function uiUpdate() {
     if(healthleft == 0) {
         document.getElementById("ui-grass-condition").style.color = "red";
         document.getElementById("ui-grass-condition").innerHTML = `Dead`;
-    } else if(healthleft < 0.1 || healthleft == 0.1) {
+    } else if(healthleft < 0.2 || healthleft == 0.2) {
         document.getElementById("ui-grass-condition").style.color = "red";
         document.getElementById("ui-grass-condition").innerHTML = `Bad`;
-    } else if(healthleft < 0.5 || healthleft == 0.5) { 
+    } else if(healthleft < 0.6 || healthleft == 0.6) {
         document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
         document.getElementById("ui-grass-condition").innerHTML = `OK`;
     } else {
@@ -104,48 +108,55 @@ async function uiUpdate() {
 }
 
 function gameAlert(type, text) {
+    const box = document.getElementById("alert-box");
+    const modelbox = document.getElementById("model-alert-box");
     if(type == 1) {
-        if(document.getElementById("alert-success").style.display = "none") {
-            document.getElementById("alert-success").style.display = "flex";
-            document.getElementById("alert-success").innerHTML = text.toString();
-            setTimeout(function() {
-                document.getElementById("alert-success").style.display = "none";
-            }, 5000)
-        } else {
-            return;
-        }
+        box.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`
+        box.scrollTop = box.scrollHeight;
     } else if(type == 2) {
-        if(document.getElementById("alert-danger").style.display = "none") {
-            document.getElementById("alert-danger").style.display = "flex";
-            document.getElementById("alert-danger").innerHTML = text.toString();
-            setTimeout(function() {
-                document.getElementById("alert-danger").style.display = "none";
-            }, 5000)
-        } else {
-            return;
-        }
+        box.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`
+        box.scrollTop = box.scrollHeight;
     } else if(type == 3) {
-        if(document.getElementById("model-alert-success").style.display = "none") {
-            document.getElementById("model-alert-success").style.display = "flex";
-            document.getElementById("model-alert-success").innerHTML = text.toString();
-            setTimeout(function() {
-                document.getElementById("model-alert-success").style.display = "none";
-            }, 5000)
-        } else {
-            return;
-        }
+        modelbox.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`
+        modelbox.scrollTop = modelbox.scrollHeight;
     } else if(type == 4) {
-        if(document.getElementById("model-alert-danger").style.display = "none") {
-            document.getElementById("model-alert-danger").style.display = "flex";
-            document.getElementById("model-alert-danger").innerHTML = text.toString();
-            setTimeout(function() {
-                document.getElementById("model-alert-danger").style.display = "none";
-            }, 5000)
-        } else {
-            return;
-        }
+        modelbox.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`
+        modelbox.scrollTop = modelbox.scrollHeight;
     } else {
         return;
+    }
+}
+
+// GAME ACHIEVEMENTS
+
+function achievementListener() {
+
+    if(db.game.achievement.firstTouch == 0) {
+        achievement("Achievement Unlocked: TOUCHED GRASS", "hand-badge.png")
+        db.game.achievement.firstTouch = 1;
+        fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+          if (x) console.error(x)
+        });
+    }
+
+    if(db.grass.level == 10) {
+        if(db.game.achievement.lvl10 == 0) {
+            achievement("Achievement Unlocked: TOUCHING GRASS MASTER", "lvl10.jpg")
+            db.game.achievement.lvl10 = 1;
+            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+              if (x) console.error(x)
+            });
+        }
+    }
+
+    if(db.grass.level == 20) {
+        if(db.game.achievement.lvl20 == 0) {
+            achievement("Achievement Unlocked: TOUCHING GRASS SENSAI", "lvl20.jpg")
+            db.game.achievement.lvl20 = 1;
+            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+              if (x) console.error(x)
+            });
+        }
     }
 }
 
@@ -164,7 +175,7 @@ function achievement(name, iconPath) {
     if(iconPath) {
       modalAchievement.innerHTML += `
       <br>
-      <img style="height:250px;left:30%;position:absolute;" src="../assets/${iconPath}">
+      <img style="height:250px;left:30%;position:absolute;" src="../assets/achevs/${iconPath}">
       `
     }
     
@@ -187,14 +198,6 @@ shortcut.add(`${shortcuts.revivebtn[0]}+${shortcuts.revivebtn[1]}`, function() {
     grassRevive()
 });
 
-// GAME ACHIEVEMENT
-
-function FirstTouch() {
-    db.game.achievement.firstTouch = 1;
-    fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
-      if (x) console.error(x)
-    });
-}
 
 // GAME MENU
 
@@ -235,6 +238,7 @@ function openMenu() {
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() { 
       modal.style.display = "none";
+      document.getElementById("model-alert-box").innerHTML = " ";
     }
   
 }
@@ -302,6 +306,7 @@ function openShop() {
     span.onclick = function() { 
       modal.style.display = "none";
       modalContent.style.backgroundColor = "none";
+      document.getElementById("model-alert-box").innerHTML = " ";
     }
   
 }
@@ -325,7 +330,7 @@ function buyCoins() {
       db.user.coins += 100;
       gameAlert(3, "100 Coins added.");
       uiUpdate();
-      fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+      fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
       });
     } else {
@@ -375,7 +380,6 @@ function grasslvlupCost() {
   
 function grassLevelup() {
     let levelupCost = grasslvlupCost();
-  
     if(db.user.coins > levelupCost || db.user.coins == levelupCost) {
       db.user.coins -= levelupCost;
       db.grass.level += 1;
@@ -384,7 +388,8 @@ function grassLevelup() {
       prices();
       grassUpdate();
       uiUpdate();
-      fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+      discordGrasslvlup();
+      fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
       });
     } else {
@@ -458,7 +463,7 @@ function checkGF() {
 function earnCoins() {
     db.user.coins += db.grass.level;
 
-    fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
     });
 }
@@ -466,7 +471,15 @@ function earnCoins() {
 function earnXP() {
     db.user.xp += 2;
 
-    fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+        if (x) console.error(x)
+    });
+}
+
+function addTime() {
+    db.game.playTime += 1;
+
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
     });
 }
@@ -476,25 +489,30 @@ function decreaseCondition() {
     let healthleft = db.grass.health / maxhealth;
 
     if(healthleft == 0) {
-        document.getElementById("ui-grass-condition").style.color = "red";
-        document.getElementById("ui-grass-condition").innerHTML = `Dead`;
-    } else if(healthleft < 0.1 || healthleft == 0.1) {
+        grassUpdate()
+        uiUpdate();
+    } else if(healthleft < 0.2 || healthleft == 0.2) {
+      db.grass.health -= 1;
+        grassUpdate()
+        uiUpdate();
+    } else if(healthleft < 0.4 || healthleft == 0.4) { 
         db.grass.health -= 1;
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass3.jpeg')";
-        document.getElementById("ui-grass-condition").style.color = "red";
-        document.getElementById("ui-grass-condition").innerHTML = `Bad`;
-    } else if(healthleft < 0.5 || healthleft == 0.5) { 
+        grassUpdate()
+        uiUpdate();
+    } else if(healthleft < 0.6 || healthleft == 0.6) { 
         db.grass.health -= 1;
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass2.jpeg')";
-        document.getElementById("ui-grass-condition").style.color = "rgb(255, 187, 0)";
-        document.getElementById("ui-grass-condition").innerHTML = `OK`;
+        grassUpdate()
+        uiUpdate();
+    } else if(healthleft < 0.8 || healthleft == 0.8) { 
+        db.grass.health -= 1;
+        grassUpdate()
+        uiUpdate();
     } else {
         db.grass.health -= 1;
-        document.getElementById("ui-grass-condition").style.color = "rgb(13, 226, 42)";
-        document.getElementById("ui-grass-condition").innerHTML = `Good`;
+        uiUpdate();
     }
 
-    fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
     });
 }

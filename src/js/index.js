@@ -18,10 +18,10 @@ async function createWindow() {
         title: 'TGS',
         icon: __dirname + '/icon.png',
         webPreferences: {
-          //devTools: false,
           webgl: true,
           nodeIntegration: true,
           contextIsolation: false
+          //devTools: false,
         }
     })
     win.setTitle('TGS');
@@ -30,7 +30,11 @@ async function createWindow() {
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 
-    if(!fs.existsSync(`config.json`)) {
+    CreateStorage()
+}
+
+function CreateStorage() {
+    if(!fs.existsSync(`storage.json`)) {
         const json = {
             user: {
                 username: "",
@@ -42,8 +46,13 @@ async function createWindow() {
                 health: 10,
             },
             game: {
+                playTime: 0,
                 achievement: {
-                    firstTouch: 0
+                    firstTouch: 0,
+                    lvl10: 0,
+                    lvl20: 0,
+                    lvl30: 0,
+                    lvl40: 0,
                 }
             },
             settings: {
@@ -54,7 +63,7 @@ async function createWindow() {
             }
         }
         let data = JSON.stringify(json, null, 2);
-        fs.writeFile("config.json", data, function(err) { if(err) { return console.log(err) } console.log("The file was saved!") }); 
+        fs.writeFile("storage.json", data, function(err) { if(err) { return console.log(err) } console.log("The file was saved!") }); 
     }
 }
 
@@ -63,7 +72,7 @@ ipcMain.on('app-restart', () => { app.relaunch(); app.exit(); });
 ipcMain.on('app-dev', () => { win.webContents.openDevTools(); });
 ipcMain.on('maximize-window', () => { win.setFullScreen(!win.isFullScreen()) });
 ipcMain.on('minimize-window', () => { win.minimize(); });
-ipcMain.on('resize-window', (sizes) => { win.setSize(sizes.width, sizes.height); });
+ipcMain.on('resize-window', () => { win.setSize(1200, 728); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });

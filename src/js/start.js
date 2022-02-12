@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let db = JSON.parse(fs.readFileSync("./config.json", "utf8"));
+let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
 function onLoad() {
     if(db.user.username.length < 1) {
@@ -29,7 +29,7 @@ function onLoad() {
                 alert("Please enter a username!")
             } else {
                 db.user.username = document.getElementById("usr").value;
-                fs.writeFile("./config.json", JSON.stringify(db, null, 2), (x) => {
+                fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
                     if (x) console.error(x)
                 });
                 ipcRenderer.send('open-game');
