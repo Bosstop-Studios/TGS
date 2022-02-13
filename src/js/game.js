@@ -40,8 +40,8 @@ function grassRevive() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0.1 || healthleft == 0.1) {
-        const rate = db.grass.level * 5
-        const cost = db.grass.level * 25 
+        const rate = db.grass.level * 10
+        const cost = db.grass.level * 25
         const finalCost = cost - rate;
         if(db.user.coins > finalCost || db.user.coins == finalCost) {
             db.user.coins -= finalCost;
@@ -49,9 +49,7 @@ function grassRevive() {
             uiUpdate();
             grassUpdate()
             gameAlert(1, "<b>Alert:</b>&nbsp; Grass Revived!");
-            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-                if (x) console.error(x)
-            });
+            SaveData()
         } else {
             gameAlert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to revive your Grass!");
         }
@@ -132,30 +130,24 @@ function gameAlert(type, text) {
 function achievementListener() {
 
     if(db.game.achievement.firstTouch == 0) {
-        achievement("Achievement Unlocked: TOUCHED GRASS", "hand-badge.png")
+        achievement("Achievement Unlocked:<br> TOUCHED GRASS", "hand-badge.png")
         db.game.achievement.firstTouch = 1;
-        fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-          if (x) console.error(x)
-        });
+        SaveData()
     }
 
     if(db.grass.level == 10) {
         if(db.game.achievement.lvl10 == 0) {
-            achievement("Achievement Unlocked: TOUCHING GRASS MASTER", "lvl10.jpg")
+            achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", "lvl10.jpg")
             db.game.achievement.lvl10 = 1;
-            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-              if (x) console.error(x)
-            });
+            SaveData()
         }
     }
 
     if(db.grass.level == 20) {
         if(db.game.achievement.lvl20 == 0) {
-            achievement("Achievement Unlocked: TOUCHING GRASS SENSAI", "lvl20.jpg")
+            achievement("Achievement Unlocked:<br> TOUCHING GRASS SENSAI", "lvl20.jpg")
             db.game.achievement.lvl20 = 1;
-            fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-              if (x) console.error(x)
-            });
+            SaveData()
         }
     }
 }
@@ -330,9 +322,7 @@ function buyCoins() {
       db.user.coins += 100;
       gameAlert(3, "100 Coins added.");
       uiUpdate();
-      fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
-      });
+      SaveData()
     } else {
       gameAlert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
     }
@@ -389,9 +379,7 @@ function grassLevelup() {
       grassUpdate();
       uiUpdate();
       discordGrasslvlup();
-      fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
-      });
+      SaveData()
     } else {
       gameAlert(4, "<b>Alert:</b>&nbsp;You don't have enough Coins to buy this item.")
     }
@@ -459,29 +447,21 @@ function checkGF() {
     `
 }
 
-// STORAGE
+// ECONOMY 
+
 function earnCoins() {
     db.user.coins += db.grass.level;
-
-    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
-    });
+    SaveData()
 }
 
 function earnXP() {
     db.user.xp += 2;
-
-    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
-    });
+    SaveData()
 }
 
 function addTime() {
     db.game.playTime += 1;
-
-    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
-    });
+    SaveData()
 }
 
 function decreaseCondition() {
@@ -512,6 +492,12 @@ function decreaseCondition() {
         uiUpdate();
     }
 
+    SaveData()
+}
+
+// STORAGE
+
+function SaveData() {
     fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if (x) console.error(x)
     });

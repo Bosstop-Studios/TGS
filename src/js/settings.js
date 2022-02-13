@@ -1,5 +1,11 @@
 const fs = require('fs');
 
+let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
+
+window.onload = function() {
+    document.getElementById("info-playtime-min").innerHTML = db.game.playTime;
+};
+
 var backButton = document.getElementById("back-arrow")
 backButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-game');
