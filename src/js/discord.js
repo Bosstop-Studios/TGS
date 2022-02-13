@@ -22,8 +22,7 @@ function discordGameStartMenu() {
                 state: "Start Menu",
                 largeImageKey: "tgs",
                 largeImageText: "TGS",
-                instance: false,
-                startTimestamp: d1
+                instance: false
             })
         }
     })
@@ -37,8 +36,7 @@ function discordinGame() {
                 state: `Grass Level: ${db.grass.level}`,
                 largeImageKey: "tgs",
                 largeImageText: "TGS",
-                instance: false,
-                startTimestamp: d1
+                instance: false
             })
         }
     })
@@ -52,8 +50,7 @@ function discordGrasslvlup() {
                 state: `Grass Level: ${db.grass.level}`,
                 largeImageKey: "tgs",
                 largeImageText: "TGS",
-                instance: false,
-                startTimestamp: d1
+                instance: false
             })
         }
     })

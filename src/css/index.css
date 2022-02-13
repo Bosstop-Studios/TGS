@@ -39,6 +39,7 @@ img {
 }
 
 #hand {
+    color: #00ff55;
     position: absolute;
     height: 550px;
     left: 350px;
