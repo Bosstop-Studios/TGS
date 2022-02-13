@@ -20,8 +20,8 @@ async function createWindow() {
         webPreferences: {
           webgl: true,
           nodeIntegration: true,
-          contextIsolation: false
-          //devTools: false,
+          contextIsolation: false,
+          // devTools: false
         }
     })
     win.setTitle('TGS');
@@ -46,6 +46,7 @@ function CreateStorage() {
                 health: 10,
             },
             game: {
+                intro: false,
                 playTime: 0,
                 achievement: {
                     firstTouch: 0,
@@ -75,6 +76,7 @@ ipcMain.on('minimize-window', () => { win.minimize(); });
 ipcMain.on('resize-window', () => { win.setSize(1200, 728); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
+ipcMain.on('open-intro', () => { win.loadFile('src/html/intro.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });
 ipcMain.on('open-settings', () => { win.loadFile('src/html/settings.html'); });
 ipcMain.on('open-update', () => { win.loadFile('src/html/update.html'); });

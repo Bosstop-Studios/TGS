@@ -5,7 +5,7 @@
   "description": "Touch Grass Simulator",
   "main": "src/js/index.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --disable-software-rasterizer",
     "build": "electron-builder",
     "pack": "electron-builder build",
     "dist:linux": "electron-builder --linux",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "electron": "^16.0.7",
     "electron-builder": "^22.14.5",
+    "electron-packager": "^15.4.0",
     "fs": "^0.0.1-security"
   },
   "build": {

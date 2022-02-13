@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--PAGE-->
+    <title>TGS - Start</title>
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+
+    <!--PRELOADS-->
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+</head>
+<body style="font-family:'Roboto',sans-serif; background-color:#86a6b1;">
+    <div id="grid">
+        <div id="name">TGS</div>
+        <div id="version"></div>
+        <div id="drag"></div>
+        <div id="blank">&nbsp;</div>
+        <div id="mini">&#x1F5D5;</div>
+        <div id="maxi">&#128470;</div>
+        <div id="close">&times;</div>
+    </div>
+    <br>
+    <div style="top:30px; width:100%; height:100%; position:absolute; color:rgb(255, 255, 255); background-color:rgb(61, 61, 61); padding:20px; overflow:auto;">
+        <center><h1>Intro</h1></center><br><br>
+        <div style="float:left; background-color:rgba(24, 24, 24, 0.836); height:auto; width:95%; margin:20px; padding:5px; border-radius:25px; animation-delay: 0.0s;" class="introanimation">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h4 style="margin:65px">Click The Hand to Touch Grass</h4>
+                </div>
+                <div class="col-sm-2">
+                    <img style="right:0px; height:150px;"src="../assets/hand.jpeg">
+                </div>
+            </div>
+        </div>
+        <div style="float:right; background-color:rgba(24, 24, 24, 0.836); height:auto; width:95%; margin:20px; padding:5px; border-radius:25px; animation-delay: 0.2s;" class="introanimation">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img style="margin:30px; right:0px; height:100px; border-radius:10px;"src="https://cdn.bosstop.ml/image/electron_huAOfF8pEx.png">
+                </div>
+                <div class="col-sm-10">
+                    <h4 style="margin:65px; float:right;">Earn Lots of Coins and Gain lots of Social Credit</h4>
+                </div>
+            </div>
+        </div>
+        <div style="float:left; background-color:rgba(24, 24, 24, 0.836); height:auto; width:95%; margin:20px; padding:5px; border-radius:25px; animation-delay: 0.4s;" class="introanimation">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h4 style="margin:65px">Click The Revive Button to Heal your Grass</h4>
+                </div>
+                <div class="col-sm-2">
+                    <img style="margin:30px; right:0px; height:100px; border-radius:10px;"src="https://cdn.bosstop.ml/image/electron_7SThbTNpqh.png">
+                </div>
+            </div>
+        </div>
+        <div style="float:right; background-color:rgba(24, 24, 24, 0.836); height:auto; width:95%; margin:20px; padding:5px; border-radius:25px; animation-delay: 0.6s;" class="introanimation">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img style="margin:30px; right:0px; height:100px; border-radius:10px;"src="https://cdn.bosstop.ml/image/electron_uLod4DMk5N.png">
+                </div>
+                <div class="col-sm-10">
+                    <h4 style="margin:65px; float:right;">Click the Menu button and Go to the shop</h4>
+                </div>
+            </div>
+        </div>
+        <div style="height:875px;"></div>
+        <button style="z-index:1; right:65px; bottom:30px; position:fixed; font-size:20px;" id="shop-btn" type="button" onclick="ipcRenderer.send('open-game');" class="btn btn-primary">Continue</button>
+    </div>
+    <script src="../js/controls.js"></script>
+    <script src="../js/start.js"></script>
+    <script>
+        intro();
+    </script>
+</body>
+</html>

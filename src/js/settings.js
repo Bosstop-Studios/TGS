@@ -34,6 +34,7 @@ function resetData() {
             health: 10,
         },
         game: {
+            intro: false,
             playTime: 0,
             achievement: {
                 firstTouch: 0,
