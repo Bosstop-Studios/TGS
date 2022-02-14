@@ -14,7 +14,7 @@ async function createWindow() {
         frame: false,
         maximizable: true,
         minimizable: true,
-        resizable: false,
+        resizable: true,
         title: 'TGS',
         icon: __dirname + '/icon.png',
         webPreferences: {
@@ -26,7 +26,7 @@ async function createWindow() {
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
-    // win.webContents.openDevTools();
+    //win.webContents.openDevTools();
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 

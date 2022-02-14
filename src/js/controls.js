@@ -1,8 +1,16 @@
 const { ipcRenderer, shell, remote } = require('electron'); 
 
 var closeButton = document.getElementById("close")
-closeButton.addEventListener("click", function (e) {
-    ipcRenderer.send('close-window');
+closeButton.addEventListener("click", async function (e) {
+    if(document.getElementById("grass")) {
+        SaveData();
+        console.log("Saving Data")
+        await delay(2000); 
+        console.log("Saved")
+        ipcRenderer.send('close-window');
+    } else {
+        ipcRenderer.send('close-window');
+    }
 }); 
 
 var miniButton = document.getElementById("mini")

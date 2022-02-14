@@ -3,8 +3,6 @@ const find = require('find-process');
 const DiscordRPC = require('discord-rpc');
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
-var d1 = new Date();
-
 async function discordChecker() {
     const checker = await find('name', 'Discord.exe', true)
     if(checker.length > 0) {

@@ -42,7 +42,8 @@
     "productName": "TGS",
     "files": [
       "**/*",
-      "!unused/"
+      "!unused/",
+      "!storage.json"
     ],
     "win": {
       "target": "nsis",

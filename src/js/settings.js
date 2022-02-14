@@ -38,6 +38,7 @@ function resetData() {
         grass: {
             level: 1,
             health: 10,
+            service: 0,
         },
         game: {
             intro: false,

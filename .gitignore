@@ -78,6 +78,7 @@ typings/
 dist/
 unused/
 storage.json
+test.json
 eula.txt
 run.bat
 build.bat
