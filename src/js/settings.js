@@ -4,6 +4,7 @@ let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
 window.onload = function() {
     document.getElementById("info-playtime-min").innerHTML = db.game.playTime;
+    document.getElementById("handSelector").value = db.settings.hand;
 };
 
 var backButton = document.getElementById("back-arrow")
@@ -27,6 +28,14 @@ updateButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-update');
 });
 */
+
+function handSelector() {
+    var seletor = document.getElementById("handSelector").value;
+    db.settings.hand = seletor;
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+        if (x) console.error(x)
+    });
+}
 
 function resetData() {
     const json = {
@@ -53,6 +62,7 @@ function resetData() {
         },
         settings: {
             graphics: 1,
+            hand: 1,
             shortcuts: {
                 revivebtn: ['ctrl', 'r'],
             }

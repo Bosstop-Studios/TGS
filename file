@@ -1,0 +1,9 @@
+$cert = New-SelfSignedCertificate -CertStoreLocation Cert:\CurrentUser\My -Type CodeSigningCert -Subject "MyCertificate"
+
+Move-Item -Path $cert.PSPath -Destination "Cert:\CurrentUser\Root"
+
+Get-ExecutionPolicy Allsigned
+
+$CodeCert=Get-ChildItem -Path "Cert:\CurrentUser\Root" -CodeSigningCert
+
+Set-AuthenticodeSignature -FilePath "C:\Users\adith\Documents\Highschool_2021_\10th Grade\Tech\Github\TGS\run.bat" -Certificate $CodeCert

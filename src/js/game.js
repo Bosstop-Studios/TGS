@@ -16,6 +16,8 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 window.onload = function() {
     //LOAD Username
     document.getElementById("ui-username").innerHTML = db.user.username;
+    // LOAD HAND
+    document.getElementById("hand").src = `../assets/hands/hand${db.settings.hand}.jpeg`
     // LOAD BG
     tgsEvent.emit('tgs-grassUpdate');
     // LOAD UI

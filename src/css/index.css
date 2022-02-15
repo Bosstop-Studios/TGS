@@ -41,7 +41,7 @@ img {
 #hand {
     color: #00ff55;
     position: absolute;
-    height: 550px;
+    height: 600px;
     left: 350px;
     bottom: -50px;
     z-index: 1;
@@ -124,7 +124,7 @@ img {
 
 .fadeanimation {
     opacity: 0;
-    animation: fade 2.5s linear;
+    animation: fade 2s linear;
 }
 
 .introanimation {

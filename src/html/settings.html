@@ -32,8 +32,8 @@
         <div id="close">&times;</div>
     </div>
     <br>
-    <div style="top:30px; width:100%; height:100%; position:absolute; color:rgb(255, 255, 255); background-color:rgb(61, 61, 61); padding:20px;">
-        <img style="left:10px; top:25px; position:absolute; height:50px;" id="back-arrow" src="../assets/icons/back-arrow.png">
+    <div style="top:30px; width:100%; height:100%; position:absolute; color:rgb(255, 255, 255); background-color:rgb(61, 61, 61); padding:20px; overflow:auto;">
+        <img style="left:10px; top:50px; position:fixed; height:50px;" id="back-arrow" src="../assets/icons/back-arrow.png">
         <div class="container">
             <h1 style="text-align:center;">Settings</h1>
             <br>
@@ -53,6 +53,18 @@
                     </p>
                 </div>
                 <h4>Graphics</h4>
+                <div class="form-group">
+                    <label for="handSelector">Hand Color</label>
+                    <select style="width:150px;" class="form-control" onchange="handSelector()" id="handSelector" name="handSelector">
+                      <option value="1">White</option>
+                      <option value="2">Indian</option>
+                      <option value="3">Black</option>
+                      <option value="4">Dark Skinned</option>
+                      <option value="5">Blue</option>
+                      <option value="6">Orange</option>
+                      <option value="7">Blob</option>
+                    </select>
+                </div>
                 <label for="resize-width">Width:</label>
                 <input id="resize-width" style="display:inline; width:150px; margin-right:10px;" placeholder="1200" type="text" class="form-control form-control" disabled>
                 <label for="resize-height">Height:</label>
