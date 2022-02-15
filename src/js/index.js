@@ -59,7 +59,7 @@ function CreateStorage() {
             },
             settings: {
                 graphics: 1,
-                hand: 1,
+                hand: "1",
                 shortcuts: {
                     revivebtn: ['ctrl', 'r'],
                 }
