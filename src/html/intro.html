@@ -81,9 +81,20 @@
         <button style="z-index:1; right:65px; bottom:30px; position:fixed; font-size:20px;" id="shop-btn" type="button" onclick="ipcRenderer.send('open-game');" class="btn btn-primary">Continue</button>
     </div>
     <script src="../js/controls.js"></script>
-    <script src="../js/start.js"></script>
-    <script>
-        intro();
-    </script>
+<script>
+const fs = require('fs');
+
+let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
+
+function intro() {
+    db.game.intro = true;
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
+        if (x) console.error(x)
+    });
+}
+
+intro();
+    
+</script>
 </body>
 </html>
