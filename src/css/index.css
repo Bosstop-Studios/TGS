@@ -41,8 +41,8 @@ img {
 #hand {
     color: #00ff55;
     position: absolute;
-    height: 600px;
-    left: 350px;
+    height: 80%;
+    left: 30%;
     bottom: -50px;
     z-index: 1;
     -webkit-user-drag: none;

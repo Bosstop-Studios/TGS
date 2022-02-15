@@ -21,7 +21,7 @@ async function createWindow() {
           webgl: true,
           nodeIntegration: true,
           contextIsolation: false,
-          // devTools: false
+          //devTools: false
         }
     })
     win.setTitle('TGS');

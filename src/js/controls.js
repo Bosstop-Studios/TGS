@@ -5,7 +5,7 @@ closeButton.addEventListener("click", async function (e) {
     if(document.getElementById("grass")) {
         SaveData();
         console.log("Saving Data")
-        await delay(2000); 
+        await delay(1000); 
         console.log("Saved")
         ipcRenderer.send('close-window');
     } else {
@@ -25,8 +25,14 @@ maxiButton.addEventListener("click", function (e) {
 
 var settingsButton = document.getElementById("settings")
 if(settingsButton) {
-    settingsButton.addEventListener("click", function (e) {
-        ipcRenderer.send('open-settings');
+    settingsButton.addEventListener("click", async function (e) {
+        if(document.getElementById("grass")) {
+            SaveData();
+            await delay(500); 
+            ipcRenderer.send('open-settings');
+        } else {
+            ipcRenderer.send('open-settings');
+        }
     }); 
 }
 
