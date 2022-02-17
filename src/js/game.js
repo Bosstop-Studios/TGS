@@ -1,5 +1,6 @@
 const find = require('find-process');
 const fs = require('fs');
+var moment = require('moment');
 
 const EventEmitter = require('events')
 const tgsEvent = new EventEmitter();
@@ -24,6 +25,8 @@ window.onload = function() {
     tgsEvent.emit('tgs-ui-update');
     // EXTRAS 
     discordinGame();
+    // LOG 
+    log(`Logged in ( ${db.user.username} ), Coins: ${db.user.coins}, XP: ${db.user.xp}`)
 };
 
 var hand = document.getElementById("hand")
@@ -148,6 +151,18 @@ setInterval(addTime, 60 * 1000);
 
 setInterval(SaveData, 120 * 1000);
 
+const randomeventData = require("../assets/events/randomevent.json");
+
+let Eventdate = new Date();
+let Eventsec = Eventdate.getSeconds();
+
+setTimeout(()=>{
+  setInterval(()=>{
+    randomEvent(randomeventData[Math.floor(Math.random()*randomeventData.length)]);
+  }, 60 * 1000);
+}, (60 - Eventsec) * 1000);
+
+
 function gameAlert(type, text) {
     const box = document.getElementById("alert-box");
     const modelbox = document.getElementById("model-alert-box");
@@ -168,8 +183,90 @@ function gameAlert(type, text) {
     }
 }
 
-// GAME ACHIEVEMENTS
+// GAME EVENTS 
 
+function randomEvent(data) {
+    if(document.getElementById("modal-achievement").style.display == "block") {
+        log("Random Event Skipped")
+        return console.log("Event Skipped");
+    }
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("modal-content");
+    var modalAchievement = document.getElementById("modal-achievement");
+      
+    modal.style.display = "flex";
+    modalContent.style.display = "none"      
+    modalContent.innerHTML = " ";
+    modalAchievement.style.display = "block";
+    modalAchievement.innerHTML = `
+    <h3 style="text-align:center;">${data.question}</h3>      
+    <br>      
+    <br>
+    <div style="margin-top:10px; margin-bottom:10px" class="row">
+        <div class="col-sm-3">
+           <button style="margin-left:50px; width:100%; height:100%; font-size:18px;" id="randEV-btn1" type="button" class="btn btn-success">${data.btn1}</button>
+        </div>
+        <div class="col-sm-3">
+            <button style="margin-left:50px; width:100%; height:100%; font-size:18px;"id="randEV-btn2" type="button" class="btn btn-success">${data.btn2}</button>
+        </div>
+        <div class="col-sm-3">
+           <button style="margin-left:50px; width:100%; height:100%; font-size:18px;" id="randEV-btn3" type="button" class="btn btn-success">${data.btn3}</button>
+        </div>
+    </div> 
+    `
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+      modalContent.style.display = "none";
+      modalAchievement.style.display = "none";
+      modal.style.display = "none";
+      return;
+    }
+
+    var btn1 = document.getElementById("randEV-btn1")
+    btn1.onclick = function() { 
+        modalAchievement.style.display = "none";
+        modal.style.display = "none";
+        if(data.Answer == 1) {
+            db.user.xp += data.win;
+            gameAlert(1, "<b>Alert:</b>&nbsp; You have Earned " + data.win);
+        } else {
+            db.user.xp -= data.lose;
+            gameAlert(2, "<b>Alert:</b>&nbsp; You have Losed " + data.lose); 
+        }
+        tgsEvent.emit('tgs-ui-update');
+    }
+
+    var btn2 = document.getElementById("randEV-btn2")
+    btn2.onclick = function() { 
+        modalAchievement.style.display = "none";
+        modal.style.display = "none";
+        if(data.Answer == 2) {
+            db.user.xp += data.win;
+            gameAlert(1, "<b>Alert:</b>&nbsp; You have Earned " + data.win);
+        } else {
+            db.user.xp -= data.lose;
+            gameAlert(2, "<b>Alert:</b>&nbsp; You have Losed " + data.lose); 
+        }
+        tgsEvent.emit('tgs-ui-update');
+    }
+
+    var btn3 = document.getElementById("randEV-btn3")
+    btn3.onclick = function() { 
+        modalAchievement.style.display = "none";
+        modal.style.display = "none";
+        if(data.Answer == 3) {
+            db.user.xp += data.win;
+            gameAlert(1, "<b>Alert:</b>&nbsp; You have Earned " + data.win);
+        } else {
+            db.user.xp -= data.lose;
+            gameAlert(2, "<b>Alert:</b>&nbsp; You have Losed " + data.lose); 
+        }
+        tgsEvent.emit('tgs-ui-update');
+    }
+}
+
+// GAME ACHIEVEMENTS
 
 function achievement(name, iconPath) {
     var modal = document.getElementById("myModal");
@@ -226,7 +323,7 @@ function openMenu() {
           <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openShop()" class="btn btn-success">SHOP</button>
           </div>
           <div class="col-sm-3">
-          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openLife()" class="btn btn-success" disabled>LIFE</button>
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openLife()" class="btn btn-success">LIFE</button>
           </div>
           <div class="col-sm-3">
           <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" id="menu-save-btn" type="button" onclick="" class="btn btn-success">SAVE</button>
@@ -319,9 +416,10 @@ function openShop() {
   
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() { 
-      modal.style.display = "none";
-      modalContent.style.backgroundColor = "none";
       document.getElementById("model-alert-box").innerHTML = " ";
+      modalContent.innerHTML = " ";
+      modalContent.style.display = "none";
+      modal.style.display = "none";
     }
   
 }
@@ -664,8 +762,16 @@ function decreaseCondition() {
 
 function SaveData() {
     fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-        if (x) console.error(x)
+        if(x) {
+            console.log(x)
+            log(`Error_FS:\n` + x)
+        }
+        log(`Game Saved!`)
     });
+}
+
+function log(content) {
+    fs.writeFile('./log.txt', `[${moment().format('lll')}] ` + content + "\n", { flag: 'a' }, err => {console.log(err)});
 }
 
 
@@ -727,5 +833,6 @@ try {
 } catch (e) {
     if(e) {
         console.log(err); 
+        log(`Error_RPC:\n` + err)
     }
 }

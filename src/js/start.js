@@ -29,18 +29,20 @@ window.onload = async function() {
             var startButton = document.getElementById("start-btn");
             startButton.addEventListener("click", function (e) {
                 if(db.user.username.length < 1) {
-                    if(document.getElementById("usr").value.length < 1) {
-                        alert("Please enter a username!")
-                    } else {
+                    if(document.getElementById("usr").value.length > 0) {
+                        
                         db.user.username = document.getElementById("usr").value;
                         fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
                             if (x) console.error(x)
                         });
+
                         if(db.game.intro == false) {
                             ipcRenderer.send('open-intro');
                         } else {
                             ipcRenderer.send('open-game');
                         }
+                    } else {
+                        alert("Please enter a username!")
                     }
                 } else {
                     ipcRenderer.send('open-game');

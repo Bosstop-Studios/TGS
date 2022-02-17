@@ -1,0 +1,20 @@
+[
+    {
+        "question": "A Squirl is digging up your Grass what do you do.",
+        "btn1": "Chase it away",
+        "btn2": "Let it keep digging",
+        "btn3": "Shoot it",
+        "Answer": 3,
+        "win": 550,
+        "lose": 25
+    },
+    {
+        "question": "Your Neigbor is Blowing Leafs on your grass",
+        "btn1": "Rake up the leaves",
+        "btn2": "Blow the Leaves Back",
+        "btn3": "Take Care of your Neigbor",
+        "Answer": 2,
+        "win": 550,
+        "lose": 10
+    }
+]
