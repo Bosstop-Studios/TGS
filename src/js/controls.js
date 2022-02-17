@@ -4,9 +4,8 @@ var closeButton = document.getElementById("close")
 closeButton.addEventListener("click", async function (e) {
     if(document.getElementById("grass")) {
         SaveData();
-        console.log("Saving Data")
+        log("Closing Game, Bye!")
         await delay(1000); 
-        console.log("Saved")
         ipcRenderer.send('close-window');
     } else {
         ipcRenderer.send('close-window');

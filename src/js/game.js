@@ -1,6 +1,7 @@
 const find = require('find-process');
 const fs = require('fs');
-var moment = require('moment');
+const moment = require('moment');
+const ms = require('ms');
 
 const EventEmitter = require('events')
 const tgsEvent = new EventEmitter();
@@ -10,7 +11,7 @@ const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
 let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const delay = milli => new Promise(res => setTimeout(res, milli));
 
 // GAME
 
@@ -159,7 +160,7 @@ let Eventsec = Eventdate.getSeconds();
 setTimeout(()=>{
   setInterval(()=>{
     randomEvent(randomeventData[Math.floor(Math.random()*randomeventData.length)]);
-  }, 60 * 1000);
+  }, ms("5m"));
 }, (60 - Eventsec) * 1000);
 
 
