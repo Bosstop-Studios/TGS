@@ -26,7 +26,7 @@ async function createWindow() {
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 
@@ -34,6 +34,12 @@ async function createWindow() {
 }
 
 function CreateStorage() {
+    var dir = './addon';
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+
     if(!fs.existsSync(`storage.json`)) {
         const json = {
             user: {

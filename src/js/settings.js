@@ -12,16 +12,6 @@ backButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-game');
 }); 
 
-const sizes = {
-    width: document.getElementById("resize-width").value,
-    height: document.getElementById("resize-height").value
-}
-
-var sizeButton = document.getElementById("resize-btn")
-sizeButton.addEventListener("click", function (e) {
-    ipcRenderer.send('resize-window', sizes);
-}); 
-
 /*
 var updateButton = document.getElementById("update")
 updateButton.addEventListener("click", function (e) {

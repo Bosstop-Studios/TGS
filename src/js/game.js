@@ -1,17 +1,32 @@
+// IMPORTS
 const find = require('find-process');
 const fs = require('fs');
 const moment = require('moment');
 const ms = require('ms');
 
 const EventEmitter = require('events')
-const tgsEvent = new EventEmitter();
 
 const DiscordRPC = require('discord-rpc');
-const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
+// CONSTANTS 
+const randomeventData = require("../assets/events/randomevent.json");
+
+const tgsEvent = new EventEmitter();
+const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+const delay = milli => new Promise(res => setTimeout(res, milli));
+
+// MODIFABLE
 let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
-const delay = milli => new Promise(res => setTimeout(res, milli));
+let Eventdate = new Date();
+let Eventsec = Eventdate.getSeconds();
+
+let dirtImage = "url('../assets/grass/dirt.jpeg')";
+let grassOne = "url('../assets/grass/grass1.jpeg')";
+let grassTwo = "url('../assets/grass/grass2.jpeg')";
+let grassThree = "url('../assets/grass/grass3.jpeg')";
+let grassFour = "url('../assets/grass/grass4.jpeg')";
+let grassFive = "url('../assets/grass/grass5.jpeg')"
 
 // GAME
 
@@ -30,9 +45,7 @@ window.onload = function() {
     log(`Logged in ( ${db.user.username} ), Coins: ${db.user.coins}, XP: ${db.user.xp}`)
 };
 
-var hand = document.getElementById("hand")
-
-hand.addEventListener("click", async function(){
+document.getElementById("hand").addEventListener("click", async function(){
     tgsEvent.emit('tgs-achievement')
     tgsEvent.emit('tgs-clicked')
 });
@@ -81,22 +94,22 @@ tgsEvent.on('tgs-grassUpdate', () => {
         if(db.grass.service > 0) {
             serviceExe().then((bool) => {
                 if(bool == false) {
-                    document.getElementById("grass").style.backgroundImage = "url('../assets/grass/dirt.jpeg')";
+                    document.getElementById("grass").style.backgroundImage = dirtImage;
                 }
             })
         } else {
-            document.getElementById("grass").style.backgroundImage = "url('../assets/grass/dirt.jpeg')";
+            document.getElementById("grass").style.backgroundImage = dirtImage;
         }
     } else if(healthleft < 0.2 || healthleft == 0.2) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass5.jpeg')";
+        document.getElementById("grass").style.backgroundImage = grassFive;
     } else if(healthleft < 0.4 || healthleft == 0.4) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass4.jpeg')";
+        document.getElementById("grass").style.backgroundImage = grassFour;
     } else if(healthleft < 0.6 || healthleft == 0.6) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass3.jpeg')";
+        document.getElementById("grass").style.backgroundImage = grassThree;
     } else if(healthleft < 0.8 || healthleft == 0.8) { 
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass2.jpeg')";
+        document.getElementById("grass").style.backgroundImage = grassTwo;
     } else {
-        document.getElementById("grass").style.backgroundImage = "url('../assets/grass/grass1.jpeg')";
+        document.getElementById("grass").style.backgroundImage = grassOne;
     }
 })
 
@@ -147,15 +160,16 @@ function grassRevive() {
 
 // GAME UTIL
 
+
+
 // PlayTime
 setInterval(addTime, 60 * 1000);
 
-setInterval(SaveData, 120 * 1000);
-
-const randomeventData = require("../assets/events/randomevent.json");
-
-let Eventdate = new Date();
-let Eventsec = Eventdate.getSeconds();
+setTimeout(()=>{
+    setInterval(()=>{
+        SaveData();
+    }, ms("1m"));
+}, (60 - Eventsec) * 1000);
 
 setTimeout(()=>{
   setInterval(()=>{
@@ -324,10 +338,10 @@ function openMenu() {
           <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openShop()" class="btn btn-success">SHOP</button>
           </div>
           <div class="col-sm-3">
-          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openLife()" class="btn btn-success">LIFE</button>
+          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openLife()" class="btn btn-success" disabled>LIFE</button>
           </div>
           <div class="col-sm-3">
-          <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" id="menu-save-btn" type="button" onclick="" class="btn btn-success">SAVE</button>
+          <button style="margin-left:50px; width:100%; height:100%; font-size:25px;" id="menu-save-btn" type="button" onclick="" class="btn btn-success">SAVE GAME</button>
           </div>
         </div> 
         <!--
@@ -726,10 +740,6 @@ function earnXP() {
     db.user.xp += 2;
 }
 
-function addTime() {
-    db.game.playTime += 1;
-}
-
 function decreaseCondition() {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
@@ -761,6 +771,11 @@ function decreaseCondition() {
 
 // STORAGE
 
+function addTime() {
+    db.game.playTime += 1;
+    fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {});
+}
+
 function SaveData() {
     fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
         if(x) {
@@ -772,7 +787,7 @@ function SaveData() {
 }
 
 function log(content) {
-    fs.writeFile('./log.txt', `[${moment().format('lll')}] ` + content + "\n", { flag: 'a' }, err => {console.log(err)});
+    fs.writeFile('./log.txt', `[${moment().format('lll')}] ` + content + "\n", { flag: 'a+' }, err => {});
 }
 
 
@@ -836,4 +851,32 @@ try {
         console.log(err); 
         log(`Error_RPC:\n` + err)
     }
+}
+
+// API 
+
+class API {
+    constructor() {
+        this.game = document;
+        this.database = db;
+        this.event = tgsEvent;
+    }
+    printsome() {
+        console.log("some");
+    }
+}
+
+// ADDON EXECUTER
+
+const path = require('path')
+
+var dir = './addon';
+
+const addonFiles = fs.readdirSync(dir).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
+for(const file of addonFiles){
+    let addon = require(path.join(`../../addon/${file}`));
+
+    log(`Loaded: ${addon.name}, By: ${addon.author}, Version: ${addon.version}`);
+    // addon.exe(new API);
+
 }
