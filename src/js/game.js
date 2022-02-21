@@ -56,6 +56,7 @@ tgsEvent.on('tgs-clicked', async() => {
     if(db.grass.health > 0 ) {
         hand.classList.add('handanimated');
         serviceListener()
+        boosterExe()
         decreaseCondition()
         await delay(500); 
         hand.classList.remove('handanimated');
@@ -92,6 +93,7 @@ tgsEvent.on('tgs-grassUpdate', () => {
     let healthleft = db.grass.health / maxhealth;
     if(healthleft < 0 || healthleft == 0) {
         if(db.grass.service > 0) {
+            boosterUnequip()
             serviceExe().then((bool) => {
                 if(bool == false) {
                     document.getElementById("grass").style.backgroundImage = dirtImage;
@@ -387,8 +389,6 @@ function openShop() {
     modalContent.style.display = "block"
     modalContent.style.backgroundColor = "rgb(16, 121, 241)";
     modalContent.innerHTML = `
-      <h1 style="text-align:center;">Welcome to the Shop</h1>
-      <br>
       <h2 style="text-align:center;">Social Credit Market</h2>
       <br>
       <div style="margin-top:10px; margin-bottom:10px" class="row">
@@ -424,11 +424,17 @@ function openShop() {
       <br>
       <div style="margin-top:10px; margin-bottom:10px" id="service-box-taco"></div>
       <div style="margin-top:10px; margin-bottom:10px" id="service-box-truGrass"></div>
+      <br>
+      <h2 style="text-align:center;">Boosters</h2>
+      <!--<p style="text-align:center; font-size:18px; color:#00ff55;"><b>Services may have hidden benefits</b></p>-->
+      <br>
+      <div style="margin-top:10px; margin-bottom:10px" id="booster-fertilizer"></div>
     `
   
     prices();
     checkService()
-  
+    checkBoosters()
+
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() { 
       document.getElementById("model-alert-box").innerHTML = " ";
@@ -508,6 +514,96 @@ function checkService() {
     }
 }
 
+// Boosters
+
+function checkBoosters() {        
+    var fertilizerbox = document.getElementById("booster-fertilizer")
+    // var truGrass = document.getElementById("service-box-truGrass")
+
+    let fertilizerPrice = db.grass.level * 250;
+    fertilizerbox.innerHTML = `
+    <div class="row">
+        <div class="col-sm-4">
+            <p style="font-size:20px;">Fertilizer</p>
+        </div>
+        <div class="col-sm-4">
+            <p style="display:inline;">Cost: <span>${fertilizerPrice} Coins</span></p>
+        </div>
+        <div class="col-sm-2">
+            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="bossterBuy(1)" class="btn btn-success">Get</button>
+        </div>
+    </div>
+    `
+
+    /*
+    if(db.grass.booster == 2) {
+        let truGrassCare = db.grass.level * 100;
+        truGrass.innerHTML = `
+        <div class="row">
+            <div class="col-sm-4">
+                <p style="font-size:20px;">TruGrass</p>
+            </div>
+            <div class="col-sm-4">
+                <p style="display:inline;">Cost: <span>${truGrassCare} Coins</span></p>
+            </div>
+            <div class="col-sm-2">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="serviceUnequip(2)" class="btn btn-success">Equiped</button>
+            </div>
+        </div>
+        `
+    } else {
+        truGrass.innerHTML = `
+        <div class="row">
+            <div class="col-sm-4">
+                <p style="font-size:20px;">TruGrass</p>
+            </div>
+            <div class="col-sm-5">
+                <p style="display:inline;">Cost: <span>100 per Level of Grass</span></p>
+            </div>
+            <div class="col-sm-1">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="serviceBuy(2)" class="btn btn-success">Get</button>
+            </div>
+        </div>
+        `
+    }
+    */
+}
+
+// BOOSTER 
+
+function bossterBuy(boosterID) {
+    let bossterPrice;
+    if(boosterID == 1) {
+        bossterPrice = db.grass.level * 250;
+        if(db.user.coins >= bossterPrice) {
+            db.user.coins -= db.grass.level * 150;
+            db.grass.booster = 1;
+            db.grass.health = db.grass.level * 20;
+            gameAlert(3, "<b>Alert:</b>&nbsp;Bought Fertilizer");
+            tgsEvent.emit('tgs-ui-update');
+            tgsEvent.emit('tgs-grassUpdate')
+        } else {
+            gameAlert(4, "<b>Alert:</b>&nbsp;You Don't have enough coins");
+        }
+    }
+}
+
+function boosterUnequip() {
+    if(db.grass.booster > 0){
+        db.grass.booster = 0
+    }
+}
+
+async function boosterExe() {
+    if(db.grass.booster == 1) {
+        db.user.coins += db.grass.level * 5
+    } else if(db.grass.booster == 2) {
+        return;
+    }
+}
+
+// SERVICE
+
 function serviceBuy(serviceID) {
     if(serviceID == 1) {
         db.grass.service = 1;
@@ -533,7 +629,7 @@ function serviceUnequip(serviceID) {
 async function serviceExe() {
     if(db.grass.service == 1) {
         const taco = db.grass.level * 150
-        if(db.user.coins > taco || db.user.coins == taco) {
+        if(db.user.coins >= taco) {
             db.user.coins -= taco;
             db.grass.health = db.grass.level * 15;
             tgsEvent.emit('tgs-ui-update');
@@ -546,7 +642,7 @@ async function serviceExe() {
         }
     } else if(db.grass.service == 2) {
         const tru = db.grass.level * 100
-        if(db.user.coins > tru || db.user.coins == tru) {
+        if(db.user.coins >= tru) {
             db.user.coins -= tru;
             db.grass.health = db.grass.level * 20;
             tgsEvent.emit('tgs-ui-update');
@@ -582,10 +678,11 @@ function prices() {
 // SOCIAL CREDIT SHOP
   
 function buyCoins() {
-    if(db.user.xp > 100 || db.user.xp == 100) {
+    if(db.user.xp >= 100) {
       db.user.xp -= 100;
       db.user.coins += 100;
       gameAlert(3, "<b>Alert:</b>&nbsp;100 Coins added.");
+      checkService()
       tgsEvent.emit('tgs-ui-update');
     } else {
       gameAlert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
@@ -596,34 +693,34 @@ function buyCoins() {
   
 function grasslvlupCost() {
     let levelupCost;
-    if(db.grass.level > 100 || db.grass.level == 100) {
+    if(db.grass.level >= 100) {
       levelupCost = db.grass.level * 3500
     }
-    if(db.grass.level > 90 || db.grass.level == 90) {
+    if(db.grass.level >= 90) {
       levelupCost = db.grass.level * 2750
     }
-    if(db.grass.level > 80 || db.grass.level == 80) {
+    if(db.grass.level >= 80) {
       levelupCost = db.grass.level * 2050
     }
-    if(db.grass.level > 70 || db.grass.level == 70) {
+    if(db.grass.level >= 70) {
       levelupCost = db.grass.level * 1750
     }
-    if(db.grass.level > 60 || db.grass.level == 60) {
+    if(db.grass.level >= 60) {
       levelupCost = db.grass.level * 1550
     }
-    if(db.grass.level > 50 || db.grass.level == 50) {
+    if(db.grass.level >= 50) {
       levelupCost = db.grass.level * 1250
     }
-    if(db.grass.level > 40 || db.grass.level == 40) {
+    if(db.grass.level >= 40) {
       levelupCost = db.grass.level * 1050
     }
-    if(db.grass.level > 30 || db.grass.level == 30) {
+    if(db.grass.level >= 30) {
       levelupCost = db.grass.level * 850
     }
-    if(db.grass.level > 20 || db.grass.level == 20) {
+    if(db.grass.level >= 20) {
       levelupCost = db.grass.level * 650
     }
-    if(db.grass.level > 10 || db.grass.level == 10) {
+    if(db.grass.level >= 10) {
       levelupCost = db.grass.level * 450
     }
     if(db.grass.level < 10) {
@@ -634,12 +731,13 @@ function grasslvlupCost() {
   
 function grassLevelup() {
     let levelupCost = grasslvlupCost();
-    if(db.user.coins > levelupCost || db.user.coins == levelupCost) {
+    if(db.user.coins >= levelupCost) {
       db.user.coins -= levelupCost;
       db.grass.level += 1;
       db.grass.health = db.grass.level * 10;
       gameAlert(3, "<b>Alert:</b>&nbsp;Grass Leveled Up");
       prices();
+      checkService()
       tgsEvent.emit('tgs-grassUpdate');
       tgsEvent.emit('tgs-ui-update');
       discordGrasslvlup();
@@ -747,19 +845,19 @@ function decreaseCondition() {
     if(healthleft == 0) {
         tgsEvent.emit('tgs-grassUpdate')
         tgsEvent.emit('tgs-ui-update');
-    } else if(healthleft < 0.2 || healthleft == 0.2) {
+    } else if(healthleft <= 0.2) {
         db.grass.health -= 1;
         tgsEvent.emit('tgs-grassUpdate')
         tgsEvent.emit('tgs-ui-update');
-    } else if(healthleft < 0.4 || healthleft == 0.4) { 
+    } else if(healthleft <= 0.4) { 
         db.grass.health -= 1;
         tgsEvent.emit('tgs-grassUpdate')
         tgsEvent.emit('tgs-ui-update');
-    } else if(healthleft < 0.6 || healthleft == 0.6) { 
+    } else if(healthleft <= 0.6) { 
         db.grass.health -= 1;
         tgsEvent.emit('tgs-grassUpdate')
         tgsEvent.emit('tgs-ui-update');
-    } else if(healthleft < 0.8 || healthleft == 0.8) { 
+    } else if(healthleft <= 0.8) { 
         db.grass.health -= 1;
         tgsEvent.emit('tgs-grassUpdate')
         tgsEvent.emit('tgs-ui-update');

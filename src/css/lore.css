@@ -1,0 +1,45 @@
+html, body {
+    overflow: hidden;
+    margin: 0;
+    height:100%;
+    width:100%;
+    padding:0;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #43f069; 
+}
+
+p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#phone {
+    position: fixed;
+    height: 60%;
+    right: 6.5%;
+    bottom: 25px;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}

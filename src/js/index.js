@@ -26,7 +26,7 @@ async function createWindow() {
     })
     win.setTitle('TGS');
     win.loadFile('src/html/warning.html');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('close', function (event) { app.isQuiting = true, app.quit() })
 
@@ -51,6 +51,7 @@ function CreateStorage() {
                 level: 1,
                 health: 10,
                 service: 0,
+                booster: 0
             },
             game: {
                 intro: false,
@@ -84,6 +85,7 @@ ipcMain.on('minimize-window', () => { win.minimize(); });
 ipcMain.on('resize-window', () => { win.setSize(1200, 728); });
 ipcMain.on('close-window', () => { win.close(); });
 ipcMain.on('open-game', () => { win.loadFile('src/html/game.html'); });
+ipcMain.on('open-lore', () => { win.loadFile('src/html/lore.html'); });
 ipcMain.on('open-intro', () => { win.loadFile('src/html/intro.html'); });
 ipcMain.on('open-start', () => { win.loadFile('src/html/start.html'); });
 ipcMain.on('open-settings', () => { win.loadFile('src/html/settings.html'); });

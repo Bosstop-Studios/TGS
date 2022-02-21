@@ -39,13 +39,13 @@ window.onload = async function() {
                         if(db.game.intro == false) {
                             ipcRenderer.send('open-intro');
                         } else {
-                            ipcRenderer.send('open-game');
+                            ipcRenderer.send('open-lore');
                         }
                     } else {
                         alert("Please enter a username!")
                     }
                 } else {
-                    ipcRenderer.send('open-game');
+                    ipcRenderer.send('open-lore');
                 }
             }); 
         }
