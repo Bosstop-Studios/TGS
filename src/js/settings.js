@@ -1,4 +1,6 @@
 const fs = require('fs');
+const moment = require('moment')
+const download = require('download');
 
 let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
@@ -69,3 +71,35 @@ function resetData() {
         }
     }); 
 }
+
+// URL of the image
+const url = 'https://sirblob.bosstop.ml/assets/update/latest.exe';
+
+document.getElementById("update").addEventListener("click", () => {
+
+    console.log("Updating . . . ")
+
+    downloadd(url, __dirname + '../../../update/')
+
+})
+
+function log(content) {
+    fs.writeFile('./log.txt', `[${moment().format('lll')}] ` + content + "\n", { flag: 'a+' }, err => {});
+}
+
+const delay = milli => new Promise(res => setTimeout(res, milli));
+
+var exec = require('child_process').exec;
+
+const downloadd = (url, path) => {
+
+    download(url, path).then(async() => {
+        log("Updating Game, Bye!")
+        exec("start TGS1.0.0.exe", {
+            cwd: path
+        });
+        await delay(1000); 
+        ipcRenderer.send('close-window');
+    })
+
+};
