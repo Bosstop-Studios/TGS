@@ -18,15 +18,33 @@ const delay = milli => new Promise(res => setTimeout(res, milli));
 // MODIFABLE
 let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
-let Eventdate = new Date();
-let Eventsec = Eventdate.getSeconds();
-
-let dirtImage = "url('../assets/grass/dirt.jpeg')";
-let grassOne = "url('../assets/grass/grass1.jpeg')";
-let grassTwo = "url('../assets/grass/grass2.jpeg')";
-let grassThree = "url('../assets/grass/grass3.jpeg')";
-let grassFour = "url('../assets/grass/grass4.jpeg')";
-let grassFive = "url('../assets/grass/grass5.jpeg')"
+this.assets = {
+    grass: {
+        dirtImage: "url('../assets/grass/dirt.jpeg')",
+        grassOne: "url('../assets/grass/grass1.jpeg')", 
+        grassTwo: "url('../assets/grass/grass2.jpeg')", 
+        grassThree: "url('../assets/grass/grass3.jpeg')",
+        grassFour: "url('../assets/grass/grass4.jpeg')", 
+        grassFive: "url('../assets/grass/grass5.jpeg')",
+    }, 
+    achievement: {
+        game: {
+            FirstTouch: "../assets/achevs/hand-badge.png"
+        },
+        level: {
+            lvl10: "../assets/achevs/lvl10.jpg", 
+            lvl20: "../assets/achevs/lvl20.jpg", 
+            lvl30: "../assets/achevs/lvl30.jpg", 
+            lvl40: "../assets/achevs/lvl40.jpg",
+            lvl50: "../assets/achevs/lvl50.jpg",
+            lvl60: "../assets/achevs/lvl60.jpg",
+            lvl70: "../assets/achevs/lvl70.jpg",
+            lvl80: "../assets/achevs/lvl80.jpg",
+            lvl90: "../assets/achevs/lvl90.jpg",
+            lvl100: "../assets/achevs/lvl100.jpg"
+        },
+    }
+}
 
 // GAME
 
@@ -45,7 +63,7 @@ window.onload = function() {
     log(`Logged in ( ${db.user.username} ), Coins: ${db.user.coins}, XP: ${db.user.xp}`)
 };
 
-document.getElementById("hand").addEventListener("click", async function(){
+document.getElementById("hand").addEventListener("click", function() {
     tgsEvent.emit('tgs-achievement')
     tgsEvent.emit('tgs-clicked')
 });
@@ -96,44 +114,34 @@ tgsEvent.on('tgs-grassUpdate', () => {
             boosterUnequip()
             serviceExe().then((bool) => {
                 if(bool == false) {
-                    document.getElementById("grass").style.backgroundImage = dirtImage;
+                    document.getElementById("grass").style.backgroundImage = this.assets.grass.dirtImage;
                 }
             })
         } else {
-            document.getElementById("grass").style.backgroundImage = dirtImage;
+            document.getElementById("grass").style.backgroundImage = this.assets.grass.dirtImage;
         }
     } else if(healthleft < 0.2 || healthleft == 0.2) { 
-        document.getElementById("grass").style.backgroundImage = grassFive;
+        document.getElementById("grass").style.backgroundImage = this.assets.grass.grassFive;
     } else if(healthleft < 0.4 || healthleft == 0.4) { 
-        document.getElementById("grass").style.backgroundImage = grassFour;
+        document.getElementById("grass").style.backgroundImage = this.assets.grass.grassFour;
     } else if(healthleft < 0.6 || healthleft == 0.6) { 
-        document.getElementById("grass").style.backgroundImage = grassThree;
+        document.getElementById("grass").style.backgroundImage = this.assets.grass.grassThree;
     } else if(healthleft < 0.8 || healthleft == 0.8) { 
-        document.getElementById("grass").style.backgroundImage = grassTwo;
+        document.getElementById("grass").style.backgroundImage = this.assets.grass.grassTwo;
     } else {
-        document.getElementById("grass").style.backgroundImage = grassOne;
+        document.getElementById("grass").style.backgroundImage = this.assets.grass.grassOne;
     }
 })
 
 tgsEvent.on('tgs-achievement', () => {
-    if(db.game.achievement.firstTouch == 0) {
-        achievement("Achievement Unlocked:<br> TOUCHED GRASS", "hand-badge.png")
-        db.game.achievement.firstTouch = 1;
-    }
 
-    if(db.grass.level == 10) {
-        if(db.game.achievement.lvl10 == 0) {
-            achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", "lvl10.jpg")
-            db.game.achievement.lvl10 = 1;
-        }
-    }
+    // GAME 
+    if(db.game.achievement.firstTouch == 0) achievement("Achievement Unlocked:<br> TOUCHED GRASS", this.assets.achievement.FirstTouch), db.game.achievement.game.firstTouch = 1;
 
-    if(db.grass.level == 20) {
-        if(db.game.achievement.lvl20 == 0) {
-            achievement("Achievement Unlocked:<br> TOUCHING GRASS SENSAI", "lvl20.jpg")
-            db.game.achievement.lvl20 = 1;
-        }
-    }
+    // LEVEL BASED
+    if(db.grass.level == 10) if(db.game.achievement.lvl10 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", this.assets.achievement.level.lvl10), db.game.achievement.lvl10 = 1;
+    if(db.grass.level == 20) if(db.game.achievement.lvl20 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS SENSAI", this.assets.achievement.level.lvl20), db.game.achievement.lvl20 = 1;
+
 })
 
 // GRASS FUNCTIONS
@@ -162,9 +170,11 @@ function grassRevive() {
 
 // GAME UTIL
 
-
+let Eventdate = new Date();
+let Eventsec = Eventdate.getSeconds();
 
 // PlayTime
+
 setInterval(addTime, 60 * 1000);
 
 setTimeout(()=>{
@@ -183,21 +193,11 @@ setTimeout(()=>{
 function gameAlert(type, text) {
     const box = document.getElementById("alert-box");
     const modelbox = document.getElementById("model-alert-box");
-    if(type == 1) {
-        box.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`
-        box.scrollTop = box.scrollHeight;
-    } else if(type == 2) {
-        box.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`
-        box.scrollTop = box.scrollHeight;
-    } else if(type == 3) {
-        modelbox.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`
-        modelbox.scrollTop = modelbox.scrollHeight;
-    } else if(type == 4) {
-        modelbox.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`
-        modelbox.scrollTop = modelbox.scrollHeight;
-    } else {
-        return;
-    }
+    if(type == 1) box.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
+    if(type == 2) box.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
+    if(type == 3) modelbox.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
+    if(type == 4) modelbox.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
+    return;
 }
 
 // GAME EVENTS 
@@ -300,7 +300,7 @@ function achievement(name, iconPath) {
     if(iconPath) {
       modalAchievement.innerHTML += `
       <br>
-      <img style="height:250px;left:30%;position:absolute;" src="../assets/achevs/${iconPath}">
+      <img style="height:250px;left:30%;position:absolute;" src="${iconPath}">
       `
     }
     
@@ -389,35 +389,35 @@ function openShop() {
     modalContent.style.display = "block"
     modalContent.style.backgroundColor = "rgb(16, 121, 241)";
     modalContent.innerHTML = `
-      <h2 style="text-align:center;">Social Credit Market</h2>
-      <br>
-      <div style="margin-top:10px; margin-bottom:10px" class="row">
-          <div class="col-sm-4">
-            <h4>Coins</h4>
-          </div>
-          <div class="col-sm-1"></div>
-          <div class="col-sm-4">
-            <p style="display:inline;">Cost: 100 Social Credit</p>
-          </div>
-          <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Buy</button>
-          </div>
-      </div>  
-      <br>
-      <h2 style="text-align:center;">Coins Store</h2>
-      <br>
-      <div style="margin-top:10px; margin-bottom:10px" class="row">
-          <div class="col-sm-4">
-            <h4>Grass LevelUp</h4>
-          </div>
-          <div class="col-sm-1"></div>
-          <div class="col-sm-4">
-            <p style="display:inline;">Cost: <span id="grass-levelup"></span></p>
-          </div>
-          <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grassLevelup()" class="btn btn-success">Buy</button>
-          </div>
-      </div>  
+        <h2 class="gui-title">Social Credit Market</h2>
+        <br>
+        <div style="margin-top:10px; margin-bottom:10px" class="row">
+            <div class="col-sm-4">
+                <h4>Coins</h4>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <p style="display:inline;">Cost: 100 Social Credit</p>
+            </div>
+            <div class="col-sm-1">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Buy</button>
+            </div>
+        </div>  
+        <br>
+        <h2 style="text-align:center;">Coins Store</h2>
+        <br>
+        <div style="margin-top:10px; margin-bottom:10px" class="row">
+            <div class="col-sm-4">
+                <h4>Grass LevelUp</h4>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <p style="display:inline;">Cost: <span id="grass-levelup"></span></p>
+            </div>
+            <div class="col-sm-1">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grassLevelup()" class="btn btn-success">Buy</button>
+            </div>
+        </div>  
       <br>
       <h2 style="text-align:center;">Service Center</h2>
       <p style="text-align:center; font-size:18px; color:#00ff55;"><b>Services may have hidden benefits</b></p>
@@ -433,7 +433,7 @@ function openShop() {
   
     prices();
     checkService()
-    checkBoosters()
+    boosters.check()
 
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() { 
@@ -516,6 +516,57 @@ function checkService() {
 
 // Boosters
 
+
+class boosters {
+    check() {
+        var fertilizerbox = document.getElementById("booster-fertilizer")
+        // var truGrass = document.getElementById("service-box-truGrass")
+    
+        let fertilizerPrice = db.grass.level * 250;
+        fertilizerbox.innerHTML = `
+        <div class="row">
+            <div class="col-sm-4">
+                <p style="font-size:20px;">Fertilizer</p>
+            </div>
+            <div class="col-sm-4">
+                <p style="display:inline;">Cost: <span>${fertilizerPrice} Coins</span></p>
+            </div>
+            <div class="col-sm-2">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="bossterBuy(1)" class="btn btn-success">Get</button>
+            </div>
+        </div>
+        `
+    }
+    Buy(boosterID) {
+        let bossterPrice;
+        if(boosterID == 1) {
+            bossterPrice = db.grass.level * 250;
+            if(db.user.coins >= bossterPrice) {
+                db.user.coins -= db.grass.level * 150;
+                db.grass.booster = 1;
+                db.grass.health = db.grass.level * 20;
+                gameAlert(3, "<b>Alert:</b>&nbsp;Bought Fertilizer");
+                tgsEvent.emit('tgs-ui-update');
+                tgsEvent.emit('tgs-grassUpdate')
+            } else {
+                gameAlert(4, "<b>Alert:</b>&nbsp;You Don't have enough coins");
+            }
+        }
+    }
+    Unequip() {
+        if(db.grass.booster > 0){
+            db.grass.booster = 0
+        }
+    } 
+    Execute() {
+        if(db.grass.booster == 1) {
+            db.user.coins += db.grass.level * 5
+        } else if(db.grass.booster == 2) {
+            return;
+        }
+    }
+}
+
 function checkBoosters() {        
     var fertilizerbox = document.getElementById("booster-fertilizer")
     // var truGrass = document.getElementById("service-box-truGrass")
@@ -567,39 +618,6 @@ function checkBoosters() {
         `
     }
     */
-}
-
-// BOOSTER 
-
-function bossterBuy(boosterID) {
-    let bossterPrice;
-    if(boosterID == 1) {
-        bossterPrice = db.grass.level * 250;
-        if(db.user.coins >= bossterPrice) {
-            db.user.coins -= db.grass.level * 150;
-            db.grass.booster = 1;
-            db.grass.health = db.grass.level * 20;
-            gameAlert(3, "<b>Alert:</b>&nbsp;Bought Fertilizer");
-            tgsEvent.emit('tgs-ui-update');
-            tgsEvent.emit('tgs-grassUpdate')
-        } else {
-            gameAlert(4, "<b>Alert:</b>&nbsp;You Don't have enough coins");
-        }
-    }
-}
-
-function boosterUnequip() {
-    if(db.grass.booster > 0){
-        db.grass.booster = 0
-    }
-}
-
-async function boosterExe() {
-    if(db.grass.booster == 1) {
-        db.user.coins += db.grass.level * 5
-    } else if(db.grass.booster == 2) {
-        return;
-    }
 }
 
 // SERVICE
@@ -885,7 +903,11 @@ function SaveData() {
 }
 
 function log(content) {
-    fs.writeFile('./log.txt', `[${moment().format('lll')}] ` + content + "\n", { flag: 'a+' }, err => {});
+    if (!fs.existsSync("./logs")){
+        fs.mkdirSync("./logs");
+    } else {
+        fs.writeFile(`./logs/log-[${moment().format("MMM Do YY")}].txt`, `[${moment().format('lll')}] ` + content + "\n", { flag: 'a+' }, err => {});
+    }
 }
 
 
@@ -958,9 +980,6 @@ class API {
         this.game = document;
         this.database = db;
         this.event = tgsEvent;
-    }
-    printsome() {
-        console.log("some");
     }
 }
 

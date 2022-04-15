@@ -91,7 +91,7 @@ img {
     width: 50%;
     height: 90%;
     position: fixed; /* Stay in place */
-    border-radius: 2%;
+    border-radius: 1%;
     padding: 20px;
     overflow: auto;
     color:white;
@@ -172,4 +172,10 @@ img {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+.gui-title {
+    text-align: center;
+    border-bottom: 1px solid rgb(0, 0, 0);
 }
