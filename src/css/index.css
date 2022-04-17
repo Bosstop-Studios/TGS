@@ -28,6 +28,14 @@ html, body {
     background: #43f069; 
 }
 
+.container {
+    width: 100%; /* this make container fluid*/
+    height: auto;
+    background-color: rgba(255, 255, 255, 0); /* this make content background-color*/
+    margin-right: auto; /* this make content center*/
+    margin-left: auto; /* this make content center*/
+}
+
 p {
     margin: 0 !important;
     padding: 0 !important;
@@ -67,7 +75,6 @@ img {
     background-color: rgb(107, 107, 107);
 }
 
-/* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -78,19 +85,32 @@ img {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(255, 255, 255, 0); /* Fallback color */
+}
+
+#model-background {
+    position: fixed; /* Stay in place */
+    z-index: 2; 
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
 }
   
 /* Modal Content (image) */
 #modal-content {
+    z-index: 3; 
     left: 25%;
     margin-left: auto;
     margin-right: auto;
     display: block;
     width: 50%;
     height: 90%;
-    position: fixed; /* Stay in place */
+    position: fixed;
     border-radius: 1%;
     padding: 20px;
     overflow: auto;
@@ -104,6 +124,7 @@ img {
 }
 
 #modal-achievement {
+    z-index: 3; 
     left: 25%;
     margin-left: auto;
     margin-right: auto;

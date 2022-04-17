@@ -3,7 +3,7 @@ const { ipcRenderer, shell, remote } = require('electron');
 var closeButton = document.getElementById("close")
 closeButton.addEventListener("click", async function (e) {
     if(document.getElementById("grass")) {
-        SaveData();
+        storage.SaveData();
         log("Closing Game, Bye!")
         await delay(1000); 
         ipcRenderer.send('close-window');
@@ -26,7 +26,7 @@ var settingsButton = document.getElementById("settings")
 if(settingsButton) {
     settingsButton.addEventListener("click", async function (e) {
         if(document.getElementById("grass")) {
-            SaveData();
+            storage.SaveData();
             await delay(500); 
             ipcRenderer.send('open-settings');
         } else {
