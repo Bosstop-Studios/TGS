@@ -1,6 +1,7 @@
 
 module.exports.Game = class game {
     constructor() {
+        this.Ui = document;
         this.assets = {
             grass: {
                 dirtImage: "url('../assets/grass/dirt.jpeg')",
@@ -111,6 +112,37 @@ module.exports.Grass = class grass {
         if(healthleft < 0) return db.grass.health -= 1, tgsEvent.emit('tgs-grassUpdate'), tgsEvent.emit('tgs-ui-update');
         return db.grass.health -= 1, tgsEvent.emit('tgs-grassUpdate'), tgsEvent.emit('tgs-ui-update');
     }
+    lvlUpCost() {
+        let levelupCost;
+        if(db.grass.level >= 100) levelupCost = db.grass.level * 3500
+        if(db.grass.level >= 90) levelupCost = db.grass.level * 2750
+        if(db.grass.level >= 80) levelupCost = db.grass.level * 2050
+        if(db.grass.level >= 70) levelupCost = db.grass.level * 1750
+        if(db.grass.level >= 60) levelupCost = db.grass.level * 1550
+        if(db.grass.level >= 50) levelupCost = db.grass.level * 1250
+        if(db.grass.level >= 40) levelupCost = db.grass.level * 1050
+        if(db.grass.level >= 30) levelupCost = db.grass.level * 850
+        if(db.grass.level >= 20) levelupCost = db.grass.level * 650
+        if(db.grass.level >= 10) levelupCost = db.grass.level * 450
+        if(db.grass.level < 10) levelupCost = db.grass.level * 150
+        return levelupCost;
+    }
+    lvlUp() {
+        let levelupCost = this.lvlUpCost();
+        if(db.user.coins >= levelupCost) {
+          db.user.coins -= levelupCost;
+          db.grass.level += 1;
+          db.grass.health = db.grass.level * 10;
+          game.Alert(3, "<b>Alert:</b>&nbsp;Grass Leveled Up");
+          shop.prices();
+          service.check()
+          tgsEvent.emit('tgs-grassUpdate');
+          tgsEvent.emit('tgs-ui-update');
+          discord.Grasslvlup();
+        } else {
+          game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Coins to buy this item.")
+        }
+    }
 }
 
 module.exports.Economy = class economy {
@@ -158,7 +190,7 @@ module.exports.Shop = class shop {
                     <p style="display:inline;">Cost: <span id="grass-levelup"></span></p>
                 </div>
                 <div class="col-sm-1">
-                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grassLevelup()" class="btn btn-success">Buy</button>
+                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grass.lvlUp()" class="btn btn-success">Buy</button>
                 </div>
             </div>  
           <br>
@@ -185,7 +217,7 @@ module.exports.Shop = class shop {
       
     }
     prices() {
-        document.getElementById("grass-levelup").innerHTML = this.grasslvlupCost().toString() + " Coins";
+        document.getElementById("grass-levelup").innerHTML = grass.lvlUpCost().toString() + " Coins";
     }
     buyCoins() {
         if(db.user.xp >= 100) {
@@ -197,21 +229,6 @@ module.exports.Shop = class shop {
         } else {
           game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
         }
-    }
-    grasslvlupCost() {
-        let levelupCost;
-        if(db.grass.level >= 100) levelupCost = db.grass.level * 3500
-        if(db.grass.level >= 90) levelupCost = db.grass.level * 2750
-        if(db.grass.level >= 80) levelupCost = db.grass.level * 2050
-        if(db.grass.level >= 70) levelupCost = db.grass.level * 1750
-        if(db.grass.level >= 60) levelupCost = db.grass.level * 1550
-        if(db.grass.level >= 50) levelupCost = db.grass.level * 1250
-        if(db.grass.level >= 40) levelupCost = db.grass.level * 1050
-        if(db.grass.level >= 30) levelupCost = db.grass.level * 850
-        if(db.grass.level >= 20) levelupCost = db.grass.level * 650
-        if(db.grass.level >= 10) levelupCost = db.grass.level * 450
-        if(db.grass.level < 10) levelupCost = db.grass.level * 150
-        return levelupCost;
     }
 }
 
@@ -417,7 +434,7 @@ module.exports.Discord = class discord {
         }
     }  
     GameStartMenu() {
-        discordChecker().then((bool) => {
+        this.Checker().then((bool) => {
             if(bool) {
                 rpc.setActivity({
                     details: "Touching Grass",
@@ -430,7 +447,7 @@ module.exports.Discord = class discord {
         })
     }
     inGame() {
-        discordChecker().then((bool) => {
+        this.Checker().then((bool) => {
             if(bool) {
                 rpc.setActivity({
                     details: "Touching Grass",
@@ -443,7 +460,7 @@ module.exports.Discord = class discord {
         })
     }
     Grasslvlup() {
-        discordChecker().then((bool) => {
+        this.Checker().then((bool) => {
             if(bool) {
                 rpc.setActivity({
                     details: "Touching Grass",

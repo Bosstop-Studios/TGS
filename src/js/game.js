@@ -19,7 +19,7 @@ const service = new Classes.Service();
 const booster = new Classes.Booster();
 const life = new Classes.Life();
 const storage = new Classes.Storage();
-const Discord = new Classes.Discord();
+const discord = new Classes.Discord();
 
 // CONSTANTS 
 const randomeventData = require("../assets/events/randomevent.json");
@@ -43,7 +43,7 @@ window.onload = function() {
     // LOAD UI
     tgsEvent.emit('tgs-ui-update');
     // EXTRAS 
-    Discord.Checker();
+    discord.Checker();
     // LOG 
     log(`Logged in ( ${db.user.username} ), Coins: ${db.user.coins}, XP: ${db.user.xp}`)
 };
@@ -310,24 +310,6 @@ function checkBoosters() {
     */
 }
 
-  
-function grassLevelup() {
-    let levelupCost = grasslvlupCost();
-    if(db.user.coins >= levelupCost) {
-      db.user.coins -= levelupCost;
-      db.grass.level += 1;
-      db.grass.health = db.grass.level * 10;
-      game.Alert(3, "<b>Alert:</b>&nbsp;Grass Leveled Up");
-      prices();
-      checkService()
-      tgsEvent.emit('tgs-grassUpdate');
-      tgsEvent.emit('tgs-ui-update');
-      discordGrasslvlup();
-    } else {
-      game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Coins to buy this item.")
-    }
-}
-
 function openLife() {
     var modal = document.getElementById("myModal");
     var modalContent = document.getElementById("modal-content");
@@ -428,8 +410,8 @@ try {
 
 class API {
     constructor() {
-        this.game = document;
-        this.database = db;
+        this.game = game;
+        this.storage = storage;
         this.event = tgsEvent;
     }
 }
