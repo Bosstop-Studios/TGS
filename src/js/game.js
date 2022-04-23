@@ -104,10 +104,10 @@ tgsEvent.on('tgs-ui-update', async() => {
 tgsEvent.on('tgs-grassUpdate', () => {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
-    if(healthleft < 0 || healthleft == 0) {
+    if(healthleft <= 0) {
         if(db.grass.service > 0) {
-            boosterUnequip()
-            serviceExe().then((bool) => {
+            booster.Unequip()
+            service.Execute().then((bool) => {
                 if(bool == false) {
                     document.getElementById("grass").style.backgroundImage = game.assets.grass.dirtImage;
                 }
@@ -115,13 +115,13 @@ tgsEvent.on('tgs-grassUpdate', () => {
         } else {
             document.getElementById("grass").style.backgroundImage = game.assets.grass.dirtImage;
         }
-    } else if(healthleft < 0.2 || healthleft == 0.2) { 
+    } else if(healthleft <= 0.2) { 
         document.getElementById("grass").style.backgroundImage = game.assets.grass.grassFive;
-    } else if(healthleft < 0.4 || healthleft == 0.4) { 
+    } else if(healthleft <= 0.4) { 
         document.getElementById("grass").style.backgroundImage = game.assets.grass.grassFour;
-    } else if(healthleft < 0.6 || healthleft == 0.6) { 
+    } else if(healthleft <= 0.6) { 
         document.getElementById("grass").style.backgroundImage = game.assets.grass.grassThree;
-    } else if(healthleft < 0.8 || healthleft == 0.8) { 
+    } else if(healthleft <= 0.8) { 
         document.getElementById("grass").style.backgroundImage = game.assets.grass.grassTwo;
     } else {
         document.getElementById("grass").style.backgroundImage = game.assets.grass.grassOne;
@@ -257,9 +257,8 @@ function achievement(name, iconPath) {
       `
     }
     
-    document.getElementById("model-background").onclick = (e) => {
-        modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; 
-    }
+    document.getElementById("model-background").onclick = (e) => { modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; }
+
 }
 
 // GAME SHORTCUTS 
@@ -308,85 +307,6 @@ function checkBoosters() {
         `
     }
     */
-}
-
-function openLife() {
-    var modal = document.getElementById("myModal");
-    var modalContent = document.getElementById("modal-content");
-
-    modal.style.display = "flex";
-    modalContent.style.display = "block"
-    modalContent.style.backgroundColor = "rgb(23, 165, 153)";
-    modalContent.innerHTML = `
-    <h2 style="text-align:center;">Life</h2>
-    <br>
-    <div style="margin-top:10px; margin-bottom:10px" id="bff-box"></div>
-    <div style="margin-top:10px; margin-bottom:10px" id="gf-box"></div>
-    <div style="margin-top:10px; margin-bottom:10px" id="bf-box"></div>
-    `
-
-    checkBFF()
-    checkGF()
-    checkBF()
-  
-    document.getElementById("model-background").onclick = (e) => {
-        modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; 
-    }
-  
-}
-
-function checkBFF() {
-    var bffbox = document.getElementById("bff-box")
-
-    bffbox.innerHTML = `
-    <div class="row">
-        <div class="col-sm-3">
-            <h4>Find BFF</h4>
-        </div>
-        <div class="col-sm-5">
-            <p style="display:inline;">Cost: 1000 Social Credit</p>
-        </div>
-        <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
-        </div>
-    </div>
-    `
-}
-
-function checkGF() {
-    var gfbox = document.getElementById("gf-box")
-
-    gfbox.innerHTML = `
-    <div class="row">
-        <div class="col-sm-3">
-            <h4>Find GF</h4>
-        </div>
-        <div class="col-sm-5">
-            <p style="display:inline;">Cost: 1500 Social Credit</p>
-        </div>
-        <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
-        </div>
-    </div>
-    `
-}
-
-function checkBF() {
-    var gfbox = document.getElementById("bf-box")
-
-    gfbox.innerHTML = `
-    <div class="row">
-        <div class="col-sm-3">
-            <h4>Find BF</h4>
-        </div>
-        <div class="col-sm-5">
-            <p style="display:inline;">Cost: 1500 Social Credit</p>
-        </div>
-        <div class="col-sm-1">
-            <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
-        </div>
-    </div>
-    `
 }
 
 function log(content) {

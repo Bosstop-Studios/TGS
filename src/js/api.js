@@ -1,7 +1,6 @@
 
 module.exports.Game = class game {
     constructor() {
-        this.Ui = document;
         this.assets = {
             grass: {
                 dirtImage: "url('../assets/grass/dirt.jpeg')",
@@ -53,7 +52,7 @@ module.exports.Game = class game {
               <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" id="shop-btn" class="btn btn-success">SHOP</button>
               </div>
               <div class="col-sm-3">
-              <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="openLife()" class="btn btn-success" disabled>LIFE</button>
+              <button style="margin-left:50px; width:100%; height:100%; font-size:35px;" type="button" onclick="life.open()" class="btn btn-success">LIFE</button>
               </div>
               <div class="col-sm-3">
               <button style="margin-left:50px; width:100%; height:100%; font-size:25px;" id="menu-save-btn" type="button" onclick="" class="btn btn-success">SAVE GAME</button>
@@ -175,7 +174,7 @@ module.exports.Shop = class shop {
                     <p style="display:inline;">Cost: 100 Social Credit</p>
                 </div>
                 <div class="col-sm-1">
-                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Buy</button>
+                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="shop.buyCoins()" class="btn btn-success">Buy</button>
                 </div>
             </div>  
             <br>
@@ -211,9 +210,7 @@ module.exports.Shop = class shop {
         service.check()
         booster.check()
     
-        document.getElementById("model-background").onclick = (e) => {
-            modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; 
-        }
+        document.getElementById("model-background").onclick = (e) => { modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; }
       
     }
     prices() {
@@ -224,7 +221,7 @@ module.exports.Shop = class shop {
           db.user.xp -= 100;
           db.user.coins += 100;
           game.Alert(3, "<b>Alert:</b>&nbsp;100 Coins added.");
-          checkService()
+          service.check()
           tgsEvent.emit('tgs-ui-update');
         } else {
           game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
@@ -236,7 +233,6 @@ module.exports.Service = class service {
     check() {        
         var tacobox = document.getElementById("service-box-taco")
         var truGrass = document.getElementById("service-box-truGrass")
-    
 
         let tacoCare = db.grass.level * 150;
         tacobox.innerHTML = `
@@ -248,7 +244,7 @@ module.exports.Service = class service {
                 <p style="display:inline;">Cost: <span>${tacoCare} Coins</span></p>
             </div>
             <div class="col-sm-2">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="service.Unequip(1)" class="btn btn-success">Equiped</button>
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" id="service-tacos-btn" class="btn btn-success"></button>
             </div>
         </div>
         `
@@ -263,10 +259,26 @@ module.exports.Service = class service {
                 <p style="display:inline;">Cost: <span>${truGrassCare} Coins</span></p>
             </div>
             <div class="col-sm-2">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="serviceUnequip(2)" class="btn btn-success">Equiped</button>
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" id="service-trugrass-btn" class="btn btn-success"></button>
             </div>
         </div>
         `
+
+        if(db.grass.service == 1) {
+            document.getElementById("service-tacos-btn").innerHTML = "Equiped"
+            document.getElementById("service-tacos-btn").onclick = () => { this.Unequip(1) }
+        } else {
+            document.getElementById("service-tacos-btn").innerHTML = "Get"
+            document.getElementById("service-tacos-btn").onclick = () => { this.Buy(1) }
+        }
+
+        if(db.grass.service == 2) {
+            document.getElementById("service-trugrass-btn").innerHTML = "Equiped"
+            document.getElementById("service-trugrass-btn").onclick = () => { this.Unequip(2) }
+        } else {
+            document.getElementById("service-trugrass-btn").innerHTML = "Get"
+            document.getElementById("service-trugrass-btn").onclick = () => { this.Buy(2) }
+        }
 
     }
     Buy(serviceID) {
@@ -289,7 +301,7 @@ module.exports.Service = class service {
         }
         this.check()
     }
-    Execute() {
+    async Execute() {
         if(db.grass.service == 1) {
             const taco = db.grass.level * 150
             if(db.user.coins >= taco) {
@@ -323,11 +335,11 @@ module.exports.Service = class service {
             db.user.coins += db.grass.level + 5;
             db.user.xp += 4;
         } else if(db.grass.service == 2) {
-            earnCoins();
-            earnXP();
+            economy.earnCoins();
+            economy.earnXP();
         } else {
-            earnCoins();
-            earnXP();
+            economy.earnCoins();
+            economy.earnXP();
         }
     }
 }
@@ -398,14 +410,63 @@ module.exports.Life = class life {
         <div style="margin-top:10px; margin-bottom:10px" id="bf-box"></div>
         `
     
-        checkBFF()
-        checkGF()
-        checkBF()
+        this.checkBFF()
+        this.checkGF()
+        this.checkBF()
       
-        document.getElementById("model-background").onclick = (e) => {
-            modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; 
-        }
+        document.getElementById("model-background").onclick = (e) => { modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; }
       
+    }
+    checkGF() {
+        var gfbox = document.getElementById("gf-box")
+
+       gfbox.innerHTML = `
+           <div class="row">
+                <div class="col-sm-3">
+                    <h4>Find GF</h4>
+                </div>
+                <div class="col-sm-5">
+                    <p style="display:inline;">Cost: 1500 Social Credit</p>
+                </div>
+                <div class="col-sm-1">
+                   <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+                </div>
+            </div>
+        `
+    }
+    checkBF() {
+        var gfbox = document.getElementById("bf-box")
+
+        gfbox.innerHTML = `
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4>Find BF</h4>
+                </div>
+                <div class="col-sm-5">
+                    <p style="display:inline;">Cost: 1500 Social Credit</p>
+                </div>
+                <div class="col-sm-1">
+                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+                </div>
+            </div>
+        `
+    }
+    checkBFF() {
+        var bffbox = document.getElementById("bff-box")
+    
+        bffbox.innerHTML = `
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>Find BFF</h4>
+            </div>
+            <div class="col-sm-5">
+                <p style="display:inline;">Cost: 1000 Social Credit</p>
+            </div>
+            <div class="col-sm-1">
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+            </div>
+        </div>
+        `
     }
 }
 

@@ -5,7 +5,7 @@ const download = require('download');
 let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
 window.onload = function() {
-    document.getElementById("info-playtime-min").innerHTML = db.game.playTime;
+    document.getElementById("info-playtime-min").innerHTML = UpTime();
     document.getElementById("handSelector").value = db.settings.hand;
 };
 
@@ -20,6 +20,14 @@ updateButton.addEventListener("click", function (e) {
     ipcRenderer.send('open-update');
 });
 */
+
+function UpTime() {  
+    let totalSeconds = db.game.playTime;
+    let hours = Math.floor(totalSeconds / 60);
+    totalSeconds %= 60;
+    let minutes = Math.floor(totalSeconds / 1);
+    return `${hours} Hours and ${minutes} Minutes`;
+}
 
 function handSelector() {
     var seletor = document.getElementById("handSelector").value;
