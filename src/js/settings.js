@@ -48,6 +48,7 @@ function resetData() {
             level: 1,
             health: 10,
             service: 0,
+            booster: 0
         },
         game: {
             intro: false,

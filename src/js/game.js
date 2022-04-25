@@ -125,7 +125,7 @@ game.event.on('tgs-grassUpdate', () => {
 game.event.on('tgs-achievement', () => {
 
     // GAME 
-    if(db.game.achievement.firstTouch == 0) achievement("Achievement Unlocked:<br> TOUCHED GRASS", game.assets.achievement.FirstTouch), db.game.achievement.game.firstTouch = 1;
+    if(db.game.achievement.firstTouch == 0) achievement("Achievement Unlocked:<br> TOUCHED GRASS", game.assets.achievement.game.FirstTouch), db.game.achievement.firstTouch = 1;
 
     // LEVEL BASED
     if(db.grass.level == 10) if(db.game.achievement.lvl10 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", game.assets.achievement.level.lvl10), db.game.achievement.lvl10 = 1;

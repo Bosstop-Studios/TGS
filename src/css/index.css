@@ -179,7 +179,7 @@ img {
 .storeSection {
     border-radius: 4px;
     padding: 5%;
-    background-color: rgba(0, 134, 223, 0.85);
+    background-color: rgba(0, 134, 223);
     margin-bottom: 15px;
     margin-top: 15px;
 }
@@ -196,6 +196,7 @@ img {
 
 .tgsitem {
     display: inline-block;
+    width: 255px;
     max-width: 255px;
     border-style: none !important;
     border-radius: 5px !important;

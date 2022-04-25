@@ -171,7 +171,7 @@ module.exports.Shop = class shop {
             <h2 class="gui-title">Social Credit Market</h2>
             <div style="margin-top:25px; margin-bottom:25px" class="row">
                 <div class="card tgsitem">
-                    <img class="card-img-top w-100 d-block" src="../../src/assets/scenes/tgs-start.jpeg" style="max-height: 200px;">
+                    <img class="card-img-top w-100 d-block" src="../../src/assets/icons/coins.png" style="max-height: 200px; background-color:rgba(0, 134, 223) !important;">
                     <div class="card-body" style="overflow: auto;background: #343a40;">
                         <h4 class="card-title">Coins</h4>
                         <p class="card-text">Cost: 100 Social Credit</p>
@@ -185,7 +185,7 @@ module.exports.Shop = class shop {
             <h2 class="gui-title">Coins Store</h2>
             <div style="margin-top:25px; margin-bottom:25px" class="row">
                 <div class="card tgsitem">
-                    <img class="card-img-top w-100 d-block" src="../../src/assets/scenes/tgs-start.jpeg" style="max-height: 200px;">
+                    <img class="card-img-top w-100 d-block" src="../../src/assets/icons/levelup-arrow.png" style="max-height: 200px; background-color:rgba(0, 134, 223) !important;">
                     <div class="card-body" style="overflow: auto;background: #343a40;">
                         <h4 class="card-title">Level Up Grass</h4>
                         <p class="card-text" id="grass-levelup-cost"></p>
@@ -414,7 +414,7 @@ module.exports.Life = class life {
                     <p style="display:inline;">Cost: 1500 Social Credit</p>
                 </div>
                 <div class="col-sm-1">
-                   <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+                   <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="game.Alert(4, '<b>Alert:</b>&nbsp;Get off the Game and get some IRL Bitches. JK Button is still in Developement');" class="btn btn-success">Start</button>
                 </div>
             </div>
         `
@@ -431,7 +431,7 @@ module.exports.Life = class life {
                     <p style="display:inline;">Cost: 1500 Social Credit</p>
                 </div>
                 <div class="col-sm-1">
-                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="game.Alert(4, '<b>Alert:</b>&nbsp;Get off the Game and get some IRL Bitches. JK Button is still in Developement');" class="btn btn-success">Start</button>
                 </div>
             </div>
         `
@@ -448,7 +448,7 @@ module.exports.Life = class life {
                 <p style="display:inline;">Cost: 1000 Social Credit</p>
             </div>
             <div class="col-sm-1">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="buyCoins()" class="btn btn-success">Start</button>
+                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="game.Alert(4, '<b>Alert:</b>&nbsp;Get off the Game and get some IRL Bitches. JK Button is still in Developement');" class="btn btn-success">Start</button>
             </div>
         </div>
         `
