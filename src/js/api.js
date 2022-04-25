@@ -1,6 +1,11 @@
+const EventEmitter = require('events')
+
+const tsgEvent = new EventEmitter();
 
 module.exports.Game = class game {
     constructor() {
+        this.event = tsgEvent;
+        this.randomevent = require("../assets/events/randomevent.json");
         this.assets = {
             grass: {
                 dirtImage: "url('../assets/grass/dirt.jpeg')",
@@ -34,8 +39,8 @@ module.exports.Game = class game {
         const modelbox = document.getElementById("model-alert-box");
         if(type == 1) box.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
         if(type == 2) box.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
-        if(type == 3) modelbox.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
-        if(type == 4) modelbox.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`, box.scrollTop = box.scrollHeight;
+        if(type == 3) modelbox.innerHTML += `<div class="alert alert-success fadeanimation" role="alert">${text.toString()}</div>`, modelbox.scrollTop = modelbox.scrollHeight;
+        if(type == 4) modelbox.innerHTML += `<div class="alert alert-danger fadeanimation" role="alert">${text.toString()}</div>`, modelbox.scrollTop = modelbox.scrollHeight;
         return;
     }
     openMenu() {
@@ -94,8 +99,8 @@ module.exports.Grass = class grass {
             if(db.user.coins > finalCost || db.user.coins == finalCost) {
                 db.user.coins -= finalCost;
                 db.grass.health = db.grass.level * 10;
-                tgsEvent.emit('tgs-ui-update');
-                tgsEvent.emit('tgs-grassUpdate')
+                game.event.emit('tgs-ui-update');
+                game.event.emit('tgs-grassUpdate')
                 game.Alert(1, "<b>Alert:</b>&nbsp; Grass Revived!");
             } else {
                 game.Alert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to revive your Grass!");
@@ -107,9 +112,9 @@ module.exports.Grass = class grass {
     decreaseCondition() {
         let maxhealth = db.grass.level * 10;
         let healthleft = db.grass.health / maxhealth;
-        if(healthleft == 0) return tgsEvent.emit('tgs-grassUpdate'), tgsEvent.emit('tgs-ui-update');
-        if(healthleft < 0) return db.grass.health -= 1, tgsEvent.emit('tgs-grassUpdate'), tgsEvent.emit('tgs-ui-update');
-        return db.grass.health -= 1, tgsEvent.emit('tgs-grassUpdate'), tgsEvent.emit('tgs-ui-update');
+        if(healthleft == 0) return game.event.emit('tgs-grassUpdate'), game.event.emit('tgs-ui-update');
+        if(healthleft < 0) return db.grass.health -= 1, game.event.emit('tgs-grassUpdate'), game.event.emit('tgs-ui-update');
+        return db.grass.health -= 1, game.event.emit('tgs-grassUpdate'), game.event.emit('tgs-ui-update');
     }
     lvlUpCost() {
         let levelupCost;
@@ -135,8 +140,8 @@ module.exports.Grass = class grass {
           game.Alert(3, "<b>Alert:</b>&nbsp;Grass Leveled Up");
           shop.prices();
           service.check()
-          tgsEvent.emit('tgs-grassUpdate');
-          tgsEvent.emit('tgs-ui-update');
+          game.event.emit('tgs-grassUpdate');
+          game.event.emit('tgs-ui-update');
           discord.Grasslvlup();
         } else {
           game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Coins to buy this item.")
@@ -160,50 +165,47 @@ module.exports.Shop = class shop {
         
         modal.style.display = "flex";
         modalContent.style.display = "block"
-        modalContent.style.backgroundColor = "rgb(16, 121, 241)";
         modalContent.innerHTML = `
         <div class="container">
+        <div class="storeSection">
             <h2 class="gui-title">Social Credit Market</h2>
-            <br>
-            <div style="margin-top:10px; margin-bottom:10px" class="row">
-                <div class="col-sm-4">
-                    <h4>Coins</h4>
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-4">
-                    <p style="display:inline;">Cost: 100 Social Credit</p>
-                </div>
-                <div class="col-sm-1">
-                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="shop.buyCoins()" class="btn btn-success">Buy</button>
+            <div style="margin-top:25px; margin-bottom:25px" class="row">
+                <div class="card tgsitem">
+                    <img class="card-img-top w-100 d-block" src="../../src/assets/scenes/tgs-start.jpeg" style="max-height: 200px;">
+                    <div class="card-body" style="overflow: auto;background: #343a40;">
+                        <h4 class="card-title">Coins</h4>
+                        <p class="card-text">Cost: 100 Social Credit</p>
+                        <br>
+                        <button style="margin: auto;" type="button" onclick="shop.buyCoins()" class="btn btn-success">Buy</button>
+                    </div>
                 </div>
             </div>  
-            <br>
-            <h2 style="text-align:center;">Coins Store</h2>
-            <br>
-            <div style="margin-top:10px; margin-bottom:10px" class="row">
-                <div class="col-sm-4">
-                    <h4>Grass LevelUp</h4>
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-4">
-                    <p style="display:inline;">Cost: <span id="grass-levelup"></span></p>
-                </div>
-                <div class="col-sm-1">
-                    <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="grass.lvlUp()" class="btn btn-success">Buy</button>
-                </div>
-            </div>  
-          <br>
-          <h2 style="text-align:center;">Service Center</h2>
-          <p style="text-align:center; font-size:18px; color:#00ff55;"><b>Services may have hidden benefits</b></p>
-          <br>
-          <div style="margin-top:10px; margin-bottom:10px" id="service-box-taco"></div>
-          <div style="margin-top:10px; margin-bottom:10px" id="service-box-truGrass"></div>
-          <br>
-          <h2 style="text-align:center;">Boosters</h2>
-          <!--<p style="text-align:center; font-size:18px; color:#00ff55;"><b>Services may have hidden benefits</b></p>-->
-          <br>
-          <div style="margin-top:10px; margin-bottom:10px" id="booster-fertilizer"></div>
         </div>
+        <div class="storeSection">
+            <h2 class="gui-title">Coins Store</h2>
+            <div style="margin-top:25px; margin-bottom:25px" class="row">
+                <div class="card tgsitem">
+                    <img class="card-img-top w-100 d-block" src="../../src/assets/scenes/tgs-start.jpeg" style="max-height: 200px;">
+                    <div class="card-body" style="overflow: auto;background: #343a40;">
+                        <h4 class="card-title">Level Up Grass</h4>
+                        <p class="card-text" id="grass-levelup-cost"></p>
+                        <br>
+                        <button style="margin: auto;" type="button" onclick="grass.lvlUp()" class="btn btn-success">Buy</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div class="storeSection">
+            <h2 class="gui-title">Service Center</h2>
+            <p class="gui-description"><b>Services may have hidden benefits</b></p>
+            <div style="margin-top:25px; margin-bottom:25px" class="row" id="service-box-taco"></div>
+            <div style="margin-top:25px; margin-bottom:25px" class="row" id="service-box-truGrass"></div>
+        </div>
+        <div class="storeSection">
+            <h2 class="gui-title">Boosters</h2>
+            <div style="margin-top:25px; margin-bottom:25px" class="row" id="booster-fertilizer"></div>
+        </div>
+    </div>
         `
       
         this.prices();
@@ -214,7 +216,7 @@ module.exports.Shop = class shop {
       
     }
     prices() {
-        document.getElementById("grass-levelup").innerHTML = grass.lvlUpCost().toString() + " Coins";
+        document.getElementById("grass-levelup-cost").innerHTML = grass.lvlUpCost().toString() + " Coins";
     }
     buyCoins() {
         if(db.user.xp >= 100) {
@@ -222,7 +224,7 @@ module.exports.Shop = class shop {
           db.user.coins += 100;
           game.Alert(3, "<b>Alert:</b>&nbsp;100 Coins added.");
           service.check()
-          tgsEvent.emit('tgs-ui-update');
+          game.event.emit('tgs-ui-update');
         } else {
           game.Alert(4, "<b>Alert:</b>&nbsp;You don't have enough Social Credit to buy this item.")
         }
@@ -236,31 +238,19 @@ module.exports.Service = class service {
 
         let tacoCare = db.grass.level * 150;
         tacobox.innerHTML = `
-        <div class="row">
-            <div class="col-sm-4">
-                <p style="font-size:20px;">Tacos Grass Care</p>
-            </div>
-            <div class="col-sm-4">
-                <p style="display:inline;">Cost: <span>${tacoCare} Coins</span></p>
-            </div>
-            <div class="col-sm-2">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" id="service-tacos-btn" class="btn btn-success"></button>
-            </div>
+        <div class="tgsbanner">
+            <h4>Tacos Grass Care</h4>
+            <p>Cost: ${tacoCare} Coins</p>
+            <button type="button" id="service-tacos-btn" class="btn btn-success"></button>
         </div>
         `
     
         let truGrassCare = db.grass.level * 100;
         truGrass.innerHTML = `
-        <div class="row">
-            <div class="col-sm-4">
-                <p style="font-size:20px;">TruGrass</p>
-            </div>
-            <div class="col-sm-4">
-                <p style="display:inline;">Cost: <span>${truGrassCare} Coins</span></p>
-            </div>
-            <div class="col-sm-2">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" id="service-trugrass-btn" class="btn btn-success"></button>
-            </div>
+        <div class="tgsbanner">
+            <h4>TruGrass</h4>
+            <p>Cost: ${truGrassCare} Coins</p>
+            <button type="button" id="service-trugrass-btn" class="btn btn-success"></button>
         </div>
         `
 
@@ -307,8 +297,8 @@ module.exports.Service = class service {
             if(db.user.coins >= taco) {
                 db.user.coins -= taco;
                 db.grass.health = db.grass.level * 15;
-                tgsEvent.emit('tgs-ui-update');
-                tgsEvent.emit('tgs-grassUpdate')
+                game.event.emit('tgs-ui-update');
+                game.event.emit('tgs-grassUpdate')
                 return true;
             } else {
                 game.Alert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to continue Tacos Grass Service!");
@@ -320,8 +310,8 @@ module.exports.Service = class service {
             if(db.user.coins >= tru) {
                 db.user.coins -= tru;
                 db.grass.health = db.grass.level * 20;
-                tgsEvent.emit('tgs-ui-update');
-                tgsEvent.emit('tgs-grassUpdate')
+                game.event.emit('tgs-ui-update');
+                game.event.emit('tgs-grassUpdate')
                 return true;
             } else {
                 game.Alert(2, "<b>Alert:</b>&nbsp;You don't have enough coins to continue TruGrass Service!");
@@ -351,30 +341,25 @@ module.exports.Booster = class booster {
     
         let fertilizerPrice = db.grass.level * 250;
         fertilizerbox.innerHTML = `
-        <div class="row">
-            <div class="col-sm-4">
-                <p style="font-size:20px;">Fertilizer</p>
-            </div>
-            <div class="col-sm-4">
-                <p style="display:inline;">Cost: <span>${fertilizerPrice} Coins</span></p>
-            </div>
-            <div class="col-sm-2">
-                <button style="margin-left:50px; right:0px; display:inline;" type="button" onclick="bossterBuy(1)" class="btn btn-success">Get</button>
-            </div>
+        <div class="tgsbanner">
+            <h4>Fertilizer</h4>
+            <p>Cost: ${fertilizerPrice} Coins</p>
+            <button type="button" onclick="booster.Buy(1)" class="btn btn-success">Buy</button>
         </div>
         `
     }
     Buy(boosterID) {
         let bossterPrice;
         if(boosterID == 1) {
+            if(db.grass.booster > 0) return game.Alert(4, "<b>Alert:</b>&nbsp;You can only use one Fertilizer at a time");
             bossterPrice = db.grass.level * 250;
             if(db.user.coins >= bossterPrice) {
                 db.user.coins -= db.grass.level * 150;
                 db.grass.booster = 1;
                 db.grass.health = db.grass.level * 20;
                 game.Alert(3, "<b>Alert:</b>&nbsp;Bought Fertilizer");
-                tgsEvent.emit('tgs-ui-update');
-                tgsEvent.emit('tgs-grassUpdate')
+                game.event.emit('tgs-ui-update');
+                game.event.emit('tgs-grassUpdate')
             } else {
                 game.Alert(4, "<b>Alert:</b>&nbsp;You Don't have enough coins");
             }

@@ -4,8 +4,6 @@ const fs = require('fs');
 const moment = require('moment');
 const ms = require('ms');
 
-const EventEmitter = require('events')
-
 const DiscordRPC = require('discord-rpc');
 
 // CLASSES
@@ -22,10 +20,6 @@ const storage = new Classes.Storage();
 const discord = new Classes.Discord();
 
 // CONSTANTS 
-const randomeventData = require("../assets/events/randomevent.json");
-
-const tgsEvent = new EventEmitter();
-
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 const delay = milli => new Promise(res => setTimeout(res, milli));
 
@@ -39,9 +33,9 @@ window.onload = function() {
     // LOAD HAND
     document.getElementById("hand").src = `../assets/hands/hand${db.settings.hand}.jpeg`
     // LOAD BG
-    tgsEvent.emit('tgs-grassUpdate');
+    game.event.emit('tgs-grassUpdate');
     // LOAD UI
-    tgsEvent.emit('tgs-ui-update');
+    game.event.emit('tgs-ui-update');
     // EXTRAS 
     discord.Checker();
     // LOG 
@@ -51,8 +45,8 @@ window.onload = function() {
 // Buttons
 
 document.getElementById("hand").addEventListener("click", function() {
-    tgsEvent.emit('tgs-achievement')
-    tgsEvent.emit('tgs-clicked')
+    game.event.emit('tgs-achievement')
+    game.event.emit('tgs-clicked')
 });
 
 document.getElementById("menu-btn").addEventListener("click", function() {
@@ -65,7 +59,7 @@ document.getElementById("revive-btn").addEventListener("click", function() {
 
 // GAME EVENTS 
 
-tgsEvent.on('tgs-clicked', async() => {
+game.event.on('tgs-clicked', async() => {
     if(db.grass.health > 0 ) {
         hand.classList.add('handanimated');
         service.Listener()
@@ -78,7 +72,7 @@ tgsEvent.on('tgs-clicked', async() => {
     }
 })
 
-tgsEvent.on('tgs-ui-update', async() => {
+game.event.on('tgs-ui-update', async() => {
     document.getElementById("ui-coins").innerHTML = db.user.coins;
     document.getElementById("ui-xp").innerHTML = db.user.xp;
 
@@ -101,7 +95,7 @@ tgsEvent.on('tgs-ui-update', async() => {
     }
 })
 
-tgsEvent.on('tgs-grassUpdate', () => {
+game.event.on('tgs-grassUpdate', () => {
     let maxhealth = db.grass.level * 10;
     let healthleft = db.grass.health / maxhealth;
     if(healthleft <= 0) {
@@ -128,14 +122,14 @@ tgsEvent.on('tgs-grassUpdate', () => {
     }
 })
 
-tgsEvent.on('tgs-achievement', () => {
+game.event.on('tgs-achievement', () => {
 
     // GAME 
-    if(db.game.achievement.firstTouch == 0) achievement("Achievement Unlocked:<br> TOUCHED GRASS", this.assets.achievement.FirstTouch), db.game.achievement.game.firstTouch = 1;
+    if(db.game.achievement.firstTouch == 0) achievement("Achievement Unlocked:<br> TOUCHED GRASS", game.assets.achievement.FirstTouch), db.game.achievement.game.firstTouch = 1;
 
     // LEVEL BASED
-    if(db.grass.level == 10) if(db.game.achievement.lvl10 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", this.assets.achievement.level.lvl10), db.game.achievement.lvl10 = 1;
-    if(db.grass.level == 20) if(db.game.achievement.lvl20 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS SENSAI", this.assets.achievement.level.lvl20), db.game.achievement.lvl20 = 1;
+    if(db.grass.level == 10) if(db.game.achievement.lvl10 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS MASTER", game.assets.achievement.level.lvl10), db.game.achievement.lvl10 = 1;
+    if(db.grass.level == 20) if(db.game.achievement.lvl20 == 0) achievement("Achievement Unlocked:<br> TOUCHING GRASS SENSAI", game.assets.achievement.level.lvl20), db.game.achievement.lvl20 = 1;
 
 })
 
@@ -157,7 +151,7 @@ setTimeout(()=>{
 
 setTimeout(()=>{
   setInterval(()=>{
-    randomEvent(randomeventData[Math.floor(Math.random()*randomeventData.length)]);
+    randomEvent(game.randomevent[Math.floor(Math.random()*game.randomevent.length)]);
   }, ms("5m"));
 }, (60 - Eventsec) * 1000);
 
@@ -257,7 +251,7 @@ function achievement(name, iconPath) {
       `
     }
     
-    document.getElementById("model-background").onclick = (e) => { modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " "; }
+    document.getElementById("model-background").onclick = (e) => { modal.style.display = "none", document.getElementById("model-alert-box").innerHTML = " ", modalAchievement.innerHTML = " "; }
 
 }
 
@@ -270,7 +264,7 @@ document.onkeydown = (keyDownEvent) => {
 };
 
 shortcut.add(`${shortcuts.revivebtn[0]}+${shortcuts.revivebtn[1]}`, function() {
-    grassRevive()
+    grass.Revive()
 });
 
 

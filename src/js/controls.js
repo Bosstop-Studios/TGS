@@ -27,6 +27,7 @@ if(settingsButton) {
     settingsButton.addEventListener("click", async function (e) {
         if(document.getElementById("grass")) {
             storage.SaveData();
+            log("Opening Settings")
             await delay(500); 
             ipcRenderer.send('open-settings');
         } else {

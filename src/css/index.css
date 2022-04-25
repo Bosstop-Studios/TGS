@@ -47,7 +47,6 @@ img {
 }
 
 #hand {
-    color: #00ff55;
     position: absolute;
     height: 80%;
     left: 30%;
@@ -76,7 +75,7 @@ img {
 }
 
 .modal {
-    display: none; /* Hidden by default */
+    display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 50px; /* Location of the box */
@@ -111,7 +110,7 @@ img {
     width: 50%;
     height: 90%;
     position: fixed;
-    border-radius: 1%;
+    border-radius: 4px;
     padding: 20px;
     overflow: auto;
     color:white;
@@ -177,25 +176,51 @@ img {
     to {transform:scale(1)}
 }
 
-.close {
-    position: absolute;
-    top: 45px;
-    right: 65px;
-    color: #f1f1f1 !important;
-    font-size: 55px !important;
-    font-weight: bold;
-    transition: 0.3s;
-    opacity: 1 !important;
+.storeSection {
+    border-radius: 4px;
+    padding: 5%;
+    background-color: rgba(0, 134, 223, 0.85);
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
-  
-.close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 
 .gui-title {
     text-align: center;
+}
+
+.gui-description {
+    text-align: center; 
+    font-size: 18px; 
+    color: #00ff55;
+}
+
+.tgsitem {
+    display: inline-block;
+    max-width: 255px;
+    border-style: none !important;
+    border-radius: 5px !important;
+    height: auto; 
+    max-height: 450px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.tgsbanner {
+    padding: 2.5px;
+    display: inline-block;
+    width: auto;
+    max-width: 95%;
+    border-style: none !important;
+    border-radius: 5px !important;
+    height: auto; 
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #343a40;
+}
+
+.tgsbanner * {
+    display: inline-flex;
+    margin: 10px;
 }
