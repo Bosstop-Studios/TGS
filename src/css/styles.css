@@ -67,11 +67,6 @@
     transition: 0.2s;
 }
 
-.btn:hover {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
 .alert {
     color: white;
     border: 0px;
@@ -306,7 +301,7 @@
     margin: auto;
     font-size: 45px;
     cursor: pointer;
-    max-width: 150px;
+    max-width: 175px;
 }
 
 .menu .btn {

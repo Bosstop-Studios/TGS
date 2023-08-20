@@ -87,7 +87,7 @@ class Game extends events_1.default {
         if (this.storage.getCoins() < finalCost)
             return this.alert("You don't have enough coins to revive your grass!");
         if (this.storage.getHealth() > 0)
-            return this.alert("Your grass is already alive!");
+            return this.alert("Your grass is still alive!");
         this.storage.removeCoins(finalCost);
         this.storage.setHealth(maxhealth);
         this.updateUI();
