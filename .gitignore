@@ -86,3 +86,4 @@ build.bat
 ideas.txt
 pnpm-lock.yaml
 start.bat
+ts/
