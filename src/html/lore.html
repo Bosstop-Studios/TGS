@@ -2,47 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGS</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" />
 
-    <!--PAGE-->
-    <title>TGS - Lore</title>
-
-    <!--CSS-->
-    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../css/lore.css">
-
-    <!--PRELOADS-->
-
-    <!--Bootstrap-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!--Fonts-->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="../css/styles.css" />
 </head>
-<body style="font-family:'Roboto',sans-serif; background-color:#86a6b1;">
-    <div id="grid">
-        <div id="name">TGS</div>
-        <div id="version"></div>
+<body>
+    <div id="nav-grid">
+        <div class="success" id="name">TGS</div>
+        <div id="version">1.0</div>
         <div id="drag"></div>
-        <div id="blank">&nbsp;</div>
-        <div id="mini">&#x1F5D5;</div>
-        <div id="maxi">&#128470;</div>
-        <div id="close">&times;</div>
+        <div id="settings">
+            <img height="20" width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC20lEQVR4nO2av2sUQRTHN+QwaLwTwWjhD4QENBExRtGIpdhor5YG/QMisYsKElA06F+glZ1BLGwVLDRiEW0tRDGHwsVKiyTeJfeRgRdYxs3u/MrtXswXrrq3b+azO2/m7XsbRRv6DwTcA5b5Vw1gLGoXAVVW14eoHQRUgGYKyCJQioouYJhsHcxzgvuAa0BPht2IAciFDB89wCiwNzTEfuCrTKIGnE+xnTQAuZ1y/Rngu9ipWOsLBdGXELwqBh4AXZrtduCNAcgroKxdu0lugh5fs0DvWkDE9REYkLh4DvzBXPPAE+AwcACYSbF1hwH2ZECsqI6f1BNYMLCbBXa7gJgEbat12QVkC/CJ4ugzsNUaRGCOBVg6IdQATjpBxGBu5U0B3PCCEJASMJ0jxFug0xsktg3nscTmvc8QDeQU+WgZOBQS5IXlBFQaMw4MAt3yO6rWuvxno0ehIHbKrmGqp3r6ofkrA1MW/n4Bm13fJ1TKcVXyqfeWEB0GY3RYwrwG7sshfSLtRinndyUNcFUtdYDkGzbnMd43Neckx0v4adwUIjbmTc8xl5Kcpr2emuiIA4jaAHzUXAsQ6zxIAr9wIGUHkEoRQQaLsrTqrU7sAiSk9SSn11XxTOpOrdh+twE/HcdalLmOZWW76j38InDHsJiwoimLA/GZhd+XwIQqIwH9TgU+hxRFwVQynoQNxG+nFCVQ0jgnh92Q2pblNyQxYbucHgeByDmNb4ZO4wcsl1coLaiaVyiILinE5aUZVYUMAfKQ/DXpC3E2wIkfQk3gnCvEDuAHxVEN2OUConohRdOoa2PHpIhtU4H3KWJX1ZysQQzbCu/EZlhOa9e2Qm9GEbDq3fBZBaYhp3QpodEzbVhM0Bs9nVIu0rPwoF2reOvtC3Dac7ueSLn+eKwLEA5Ca/yockx3ht0VA5BLBi2NEafGTovzsv6o6GK9fDCwbj7hiFUt2/+jmg1F7voLIPGx/CY2I0YAAAAASUVORK5CYII=">
+        </div>
+        <div id="mini">
+            <img height="20" width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAALUlEQVR4nO3RsQkAAAgEsd9/aa3tBUGSDY5LAAAAAGCqY9kiZEkcAQAAAOCpBi/1/hCBX+p4AAAAAElFTkSuQmCC">
+        </div>
+        <div id="maxi">
+            <img height="20" width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAdUlEQVR4nO2UsQnAIBBFHchpXCatpRNklDQ2FkKmcAgneEFIOiXFXSHih9feg1ecMcsMcMClhOsJElCBW0htt0aCpFAirS0owCGkjAQnkIEgJLdbPYFvKCTy3Ttb8G0n+t1ONH+iqPDs4khgFR5deLHSEvPsARU9c/1t2k0fAAAAAElFTkSuQmCC">
+        </div>
+        <div id="close">
+            <img height="20" width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAtUlEQVR4nO2WSwqEMBBEvYSi9z9OXI0Lj/NkUJDJwv6kBmHGgqy0eN1tUqbrHv2lgAGYjzU0+IvbD/TAi1MrMAWgOT97pbUWT+VHp+93a5Us2IRfQN3gvhoV1tgcntEER+EyaAQuhzq/22I8Cx/DDxldaTttgOugAbgeGgC7E+4bo9bAyW2uNjh3HCcc4ZCJ10tFEkkGJxGDEjg3/hbnKNQBL9mrizuRmvzslZfQZU3of/Qb2gDIApP3EFwGCQAAAABJRU5ErkJggg==">
+        </div>
     </div>
-    <br>
-    <div style="top:25px; width:100%; height:100%; position:absolute; background-repeat:no-repeat; background-size: 100% 100%; background-image: url('../assets/scenes/scene1-house.png');">
-        <div style="top:5%; background-color: rgba(24, 24, 24, 0.822); width:35%; height:10%; position: relative; padding: 10px; color: white;" id="banner">
-            <h1>Scene 1</h1>
-        </div>
-        <div id="phone-box">
-            <img src="../assets/scenes/phone.png" id="phone">
-            <button style="right: 12.5%; bottom: 50px; position:fixed; font-size:16px;" id="" type="button" onclick="" class="btn btn-success">&nbsp;Next&nbsp;</button>
-        </div>
+    <div>
+        <canvas id="canvas"></canvas>
     </div>
     <script src="../js/controls.js"></script>
     <script src="../js/lore.js"></script>

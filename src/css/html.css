@@ -1,0 +1,66 @@
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    font-family: Montserrat, sans-serif !important;
+    height: 100vh;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+}
+
+progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+code {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.2s;
+    width: 100%;
+}
+
+select {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color);
+    border: 0px;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.2s;
+    width: 100%;
+}
+
+input[type=range] {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}

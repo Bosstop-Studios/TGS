@@ -1,0 +1,76 @@
+
+@font-face {
+    src: url(../css/SyneMono-Regular.ttf);
+    font-family: 'Syne Mono';
+}
+
+:root {
+    margin: 0;
+    padding: 0;
+	font-family: "Roboto", sans-serif;
+	color: white;
+    background-color: #1b1e20;
+    --bg-color: #0a0b0c;
+    --bg-color-light: #485055;
+    --bg-color-dark: #141618;
+    --color-success: #00d346;
+    --color-error: #ff0000;
+    --color-warning: #ffd900;
+    --color-info: #00ffff;
+    --color-primary: #217df7;
+    --color-secondary: #949494;
+    --text-color: #ffffff;
+}
+
+.success { color: var(--color-success); }
+.error { color: var(--color-error); }
+.warning { color: var(--color-warning); }
+.info { color: var(--color-info); }
+.primary { color: var(--color-primary); }
+.secondary { color: var(--color-secondary); }
+
+.bg-default { 
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.bg-default:hover { 
+    background-color: var(--bg-color-light);
+    color: var(--text-color);
+}
+
+.bg-light { 
+    background-color: var(--bg-color-light);
+    color: var(--text-color);    
+}
+
+.bg-dark { 
+    background-color: var(--bg-color-dark);
+    color: var(--text-color);    
+}
+
+.bg-dark:hover { 
+    background-color: var(--bg-color);
+    color: var(--text-color);    
+}
+
+.bg-success { 
+    background-color: var(--color-success); 
+    color: var(--text-color);
+}
+
+.bg-error { background-color: var(--color-error) !important; }
+.bg-warning { background-color: var(--color-warning) !important; }
+.bg-info { background-color: var(--color-info) !important; }
+
+.bg-primary { 
+    background-color: var(--color-primary); 
+    color: var(--text-color);
+}
+
+.bg-primary:hover { 
+    background-color: var(--color-primary);
+    color: var(--text-color);
+}
+
+.bg-secondary { background-color: var(--color-secondary) !important; }

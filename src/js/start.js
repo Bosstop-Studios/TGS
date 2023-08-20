@@ -1,138 +1,102 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
 
-window.onload = async function() {
+let form, gui;
 
-    try {
-        let db = JSON.parse(fs.readFileSync("./storage.json", "utf8"));
+function createForm() {
 
-        if(document.getElementById("start-gui")) {
-            if(db.user.username.length < 1) {
-                document.getElementById("start-gui").innerHTML +=`
-                <br><br>
-                <p style="font-size:25px">Enter Your Username:</p>
-                <br>
-                <div class="form-group">
-                    <input style="max-width:500px" type="text" class="form-control" id="usr" maxlength="10" required>
-                </div>
-                <br><br><br>
-                <button type="button" class="btn btn-primary" style="text-align:center; font-size:30px;" id="start-btn">Start</button>
-                `
-            } else {
-                document.getElementById("start-gui").innerHTML +=`
-                <p style="font-size:25px">User: ${db.user.username}</p>
-                <br><br><br>
-                <button type="button" class="btn btn-primary" style="text-align:center; font-size:30px;" id="start-btn">Start</button>
-                `
-            }
-            var startButton = document.getElementById("start-btn");
-            startButton.addEventListener("click", function (e) {
-                if(db.user.username.length < 1) {
-                    if(document.getElementById("usr").value.length > 0) {
-                        
-                        db.user.username = document.getElementById("usr").value;
-                        fs.writeFile("./storage.json", JSON.stringify(db, null, 2), (x) => {
-                            if (x) console.error(x)
-                        });
+    form.style.display = "block";
 
-                        if(db.game.intro == false) {
-                            ipcRenderer.send('open-intro');
-                        } else {
-                            ipcRenderer.send('open-game');
-                        }
-                    } else {
-                        alert("Please enter a username!")
-                    }
-                } else {
-                    ipcRenderer.send('open-game');
-                }
-            }); 
-        }
-    } catch (err) {
-        console.log(err);
-        
+    let labelUsername = document.createElement("label");
+    labelUsername.setAttribute("for", "username");
+    labelUsername.innerHTML = "Username";
+
+    let inputUsername = document.createElement("input");
+    inputUsername.setAttribute("type", "text");
+    inputUsername.setAttribute("name", "username");
+    inputUsername.setAttribute("id", "username");
+
+    let submit = document.createElement("button");
+    submit.setAttribute("type", "submit");
+    submit.innerHTML = "Submit";
+
+    form.appendChild(labelUsername);
+    form.appendChild(inputUsername);
+    form.appendChild(submit);
+
+}
+
+function createStartGUI() {
+
+    gui.style.display = "block";
+
+    let username = document.createElement("h3");
+    username.innerHTML = db.user.username;
+
+    let play = document.createElement("button");
+    play.setAttribute("id", "play");
+    play.innerHTML = "Play";
+
+    let reset = document.createElement("button");
+    reset.setAttribute("id", "reset");
+    reset.classList.add("reset-btn");
+    reset.innerHTML = "Reset";
+
+    gui.appendChild(username);
+    gui.appendChild(play);
+    gui.appendChild(reset);
+
+
+    play.addEventListener("click", () => {
+        ipcRenderer.send('open-game');
+    });
+
+    reset.addEventListener("click", () => {
         const json = {
             user: {
                 username: "",
+                level: 1,
+                exp: 0,
                 coins: 100,
-                xp: 0
             },
             grass: {
                 level: 1,
                 health: 10,
-                service: 0,
+                service: 0
             },
             game: {
-                intro: false,
                 playTime: 0,
-                achievement: {
-                    firstTouch: 0,
-                    lvl10: 0,
-                    lvl20: 0,
-                    lvl30: 0,
-                    lvl40: 0,
+                achievements: [],
+                music: true,
+                checkpoints: {
+                    intro: false
                 }
             },
             settings: {
-                graphics: 1,
                 hand: "1",
-                shortcuts: {
-                    revivebtn: ['ctrl', 'r'],
-                }
+                volume: 0.5,
             }
         }
-    
-        let data = JSON.stringify(json, null, 2);
-        fs.writeFile("./storage.json", data, function(err) { 
-            if(err) { 
-                return console.log(err) 
-            }
-        }); 
-
-        await delay(1000)
-
+        let data = JSON.stringify(json, null, 4);
+        fs.writeFile("storage.json", data, function(err) { if(err) { return console.log(err) } console.log("The file was saved!") }); 
         location.reload();
-    }
+    });
+    
 }
 
-
-// DISCORD_RPC
-
-const find = require('find-process');
-
-const DiscordRPC = require('discord-rpc');
-const rpc = new DiscordRPC.Client({ transport: 'ipc' });
-
-async function discordChecker() {
-    const checker = await find('name', 'Discord.exe', true)
-    if(checker.length > 0) {
-        return true;
+window.onload = () => {
+    form = document.getElementById("form");
+    gui = document.getElementById("gui");
+    if(!db.user.username) {
+        createForm();
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            db.user.username = document.getElementById("username").value;
+            fs.writeFileSync("./storage.json", JSON.stringify(db, null, 4));
+            ipcRenderer.send('open-game');
+        });
     } else {
-        return false;
+        createStartGUI();
     }
-}
-
-function discordGameStartMenu() {
-    discordChecker().then((bool) => {
-        if(bool) {
-            rpc.setActivity({
-                details: "Touching Grass",
-                state: "Start Menu",
-                largeImageKey: "tgs",
-                largeImageText: "TGS",
-                instance: false
-            })
-        }
-    })
-}
-
-discordGameStartMenu();
-
-try {
-    rpc.login({ clientId: "940829469730566154" }).then(() => { console.log('Signed in') }).catch((err) => { console.log(err) });
-} catch (e) {
-    if(e) {
-        console.log(err); 
-    }
-}
+};
