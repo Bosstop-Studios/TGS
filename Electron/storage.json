@@ -1,0 +1,21 @@
+{
+    "user": {
+        "username": "Blob",
+        "sc": 180,
+        "coins": 55
+    },
+    "grass": {
+        "level": 1,
+        "health": 10,
+        "service": 0
+    },
+    "game": {
+        "playTime": 6,
+        "achievements": []
+    },
+    "settings": {
+        "music": true,
+        "hand": "1",
+        "volume": 0
+    }
+}

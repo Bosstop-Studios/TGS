@@ -1,0 +1,48 @@
+{
+    "name": "tgs",
+    "version": "2.5.0",
+    "description": "",
+    "main": "src/index.ts",
+    "scripts": {
+        "start": "electron . --disable-software-rasterizer",
+        "build": "electron-builder",
+        "pack": "electron-builder build",
+        "dist:linux": "electron-builder --linux",
+        "dist:mac": "electron-builder --mac"
+    },
+    "author": "Sir Blob",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.11.8",
+        "electron": "^25.9.8",
+        "electron-builder": "^24.9.1",
+        "fs": "0.0.1-security"
+    },
+    "build": {
+        "appId": "tech.bosstop.tgs",
+        "forceCodeSigning": false,
+        "productName": "TGS",
+        "files": [
+            "**/*",
+            "!storage.json"
+        ],
+        "win": {
+            "target": "nsis",
+            "asar": "true"
+        },
+        "nsis": {
+            "deleteAppDataOnUninstall": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "TGS",
+            "oneClick": false,
+            "allowElevation": false,
+            "allowToChangeInstallationDirectory": false,
+            "createDesktopShortcut": true
+        }
+    },
+    "dependencies": {
+        "discord-rpc": "^4.0.1",
+        "find-process": "^1.4.7",
+        "ms": "^2.1.3"
+    }
+}

@@ -75,15 +75,9 @@ typings/
 # FuseBox cache
 .fusebox/
 
-dist/
-unused/
-log.txt
-storage.json
-test.json
-eula.txt
-run.bat
-build.bat
-ideas.txt
-pnpm-lock.yaml
-start.bat
-ts/
+
+*/node_modules/*
+*/.svelte-kit/*
+*/dist/*
+*/pnpm-lock.yaml
+Electron/src/html/*
