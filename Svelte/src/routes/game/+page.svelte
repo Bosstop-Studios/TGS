@@ -42,7 +42,7 @@
         audioElement.play();
 
         // @ts-ignore
-        window.electron.rpcOpen($grass.level);
+        // window.electron.rpcOpen($grass.level);
     });
 
     function delay(ms: number) {

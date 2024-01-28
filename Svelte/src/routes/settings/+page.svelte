@@ -38,7 +38,12 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <img src="https://sirblob.bosstop.tech/_app/immutable/assets/logo.e7952277.png" alt="logo" class="logo">
+            <img src="./icon.png" alt="icon" class="logo">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="./logo.png" alt="logo" class="logo">
         </div>
     </div>
     <section>
@@ -73,7 +78,7 @@
             <input bind:this={volumeControl} type="range" on:change={changeVolume} min="0" max="100" value={$settings.volume*100} />
         </div>
     </section>
-    <section>
+    <section style="margin: auto; margin-top:15px;">
         <h2 class="subtitle">Credits</h2>
         <p>Manager: <b>Zach</b></p>
         <p>Developer: <b>Sir Blob</b></p>

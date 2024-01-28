@@ -1,12 +1,12 @@
 {
     "user": {
         "username": "Blob",
-        "sc": 180,
-        "coins": 55
+        "sc": 78,
+        "coins": 409
     },
     "grass": {
         "level": 1,
-        "health": 10,
+        "health": 4,
         "service": 0
     },
     "game": {

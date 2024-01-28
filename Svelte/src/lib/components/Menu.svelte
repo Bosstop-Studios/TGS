@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { user, grass, game, settings } from "../js/stores";
     import Model from "./util/Model.svelte";
 
     let menuModel: Model;
@@ -17,6 +18,8 @@
     }
 
     function gotoShop() {
+        // @ts-ignore
+        window.game.save($user, $grass, $game, $settings);
         goto("./shop.html", { replaceState: true });
     }
 
@@ -25,6 +28,8 @@
     }
 
     function gotoSettings() {
+        // @ts-ignore
+        window.game.save($user, $grass, $game, $settings);
         goto("./settings.html", { replaceState: true });
     }
 
